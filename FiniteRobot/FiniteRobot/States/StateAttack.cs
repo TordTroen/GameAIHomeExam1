@@ -4,12 +4,6 @@
 	{
 		private double _startAttackTime;
 
-		public StateAttack()
-			: base(StateID.Attack)
-		{
-
-		}
-
 		public override void OnEnter()
 		{
 			base.OnEnter();
@@ -21,22 +15,17 @@
 			_startAttackTime = robot.Time;
 		}
 
-		public override StateID OnUpdate()
+		public override string OnUpdate()
 		{
-			StateID ret = base.OnUpdate();
+			string ret = null;
 
 			//robot.SetAhead(100);
 			robot.SetFire(200);
 			if (robot.Time - _startAttackTime > 10)
 			{
-				ret = StateID.Idle;
+				ret = "Idle";
 			}
 			return ret;
-		}
-
-		public override void OnExit()
-		{
-			base.OnExit();
 		}
 	}
 }

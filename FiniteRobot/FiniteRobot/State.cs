@@ -32,16 +32,16 @@
 		/// Returns a StateID that isn't StateID.None when a new state is triggered in the call.
 		/// </summary>
 		/// <returns>The StateID of the state to transition to.</returns>
-		public virtual StateID OnUpdate()
-		{
-			robot.Out.WriteLine("Updated state '{0}'", ID); // DEBUG
-			return StateID.None;
-		}
+		//public virtual StateID OnUpdate()
+		//{
+		//	robot.Out.WriteLine("Updated state '{0}'", ID); // DEBUG
+		//	return StateID.None;
+		//}
 
-		public virtual string OnUpdate(int i)
+		public virtual string OnUpdate()
 		{
 			robot.Out.WriteLine("Updated state '{0}'", ID); // DEBUG
-			return "";
+			return null;
 		}
 
 		public virtual void OnExit()

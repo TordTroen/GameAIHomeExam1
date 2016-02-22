@@ -5,3 +5,10 @@ C:\MyVS\AI\Øvinger\FiniteRobot\FiniteRobot\FiniteRobot\bin\Debug\Drot.FiniteRob
 C:\MyVS\AI\Øvinger\FiniteRobot\FiniteRobot\FiniteRobot\bin\Debug\Drot.FiniteRobot_1.0.pdb
 C:\MyVS\AI\Øvinger\FiniteRobot\FiniteRobot\FiniteRobot\obj\Debug\Drot.FiniteRobot_1.0.dll
 C:\MyVS\AI\Øvinger\FiniteRobot\FiniteRobot\FiniteRobot\obj\Debug\Drot.FiniteRobot_1.0.pdb
+C:\MyVS\AI\Innlevering1\RepoRoot\FiniteRobot\FiniteRobot\bin\Debug\Drot.FiniteRobot_1.0.dll
+C:\MyVS\AI\Innlevering1\RepoRoot\FiniteRobot\FiniteRobot\bin\Debug\Drot.FiniteRobot_1.0.pdb
+C:\MyVS\AI\Innlevering1\RepoRoot\FiniteRobot\FiniteRobot\bin\Debug\robocode.dll
+C:\MyVS\AI\Innlevering1\RepoRoot\FiniteRobot\FiniteRobot\bin\Debug\robocode.xml
+C:\MyVS\AI\Innlevering1\RepoRoot\FiniteRobot\FiniteRobot\obj\Debug\FiniteRobot.csprojResolveAssemblyReference.cache
+C:\MyVS\AI\Innlevering1\RepoRoot\FiniteRobot\FiniteRobot\obj\Debug\Drot.FiniteRobot_1.0.dll
+C:\MyVS\AI\Innlevering1\RepoRoot\FiniteRobot\FiniteRobot\obj\Debug\Drot.FiniteRobot_1.0.pdb

@@ -6,12 +6,6 @@ namespace Drot.States
 	{
 		Random rand = new Random();
 
-		public StateEscape()
-			: base(StateID.Escape)
-		{
-
-		}
-
 		public override void OnEnter()
 		{
 			base.OnEnter();
@@ -24,21 +18,16 @@ namespace Drot.States
 			robot.SetTurnLeft((robot.Heading - robot.bulletData.Heading) * flip);
 		}
 
-		public override StateID OnUpdate()
+		public override string OnUpdate()
 		{
-			StateID ret = base.OnUpdate();
+			string ret = null;
 			robot.SetAhead(30);
 			if (robot.TurnRemaining.IsZero())
 			{
-				ret = StateID.Idle;
+				ret = "Idle";
 			}
 
 			return ret;
-		}
-
-		public override void OnExit()
-		{
-			base.OnExit();
 		}
 	}
 }

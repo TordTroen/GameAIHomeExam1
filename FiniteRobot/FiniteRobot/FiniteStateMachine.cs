@@ -10,13 +10,14 @@ namespace Drot
 		private readonly State[] _allStates; // Contains all possible states, so we don't have to make several instances of the same state
 		private const int MaxTransitionsPerFrame = 10;
 		private Dictionary<string, State> states;
-		 
+		
 		public FiniteStateMachine(FSMRobot robot)
 		{
-			states = new Dictionary<string, State>()
+			states = new Dictionary<string, State>
 			{
 				{ "Idle", new StateIdle() },
-				{ "Attack", new StateAttack() }
+				{ "Attack", new StateAttack() },
+				{ "Escape", new StateAttack() }
 			};
 			foreach (var item in states)
 			{
@@ -24,33 +25,24 @@ namespace Drot
 				item.Value.Initialize(item.Key, robot);
 			}
 
-			_allStates = new State[] { new StateIdle(), new StateAttack(), new StateEscape() };
-			foreach (var state in _allStates)
-			{
-				//state.Initialize(robot);
-			}
+			//_allStates = new State[] { new StateIdle(), new StateAttack(), new StateEscape() };
+			//foreach (var state in _allStates)
+			//{
+			//	state.Initialize(robot);
+			//}
 			//SetCurrentState(_allStates[0]);
 			SetCurrentState(states["Idle"]);
 		}
 
 		/// <summary>
-		/// Enqueues a state with the gives StateID. Won't do anything if the StateID is StateID.None.
+		/// Enqueues a state with the gives stateID. Checks to make sure stateID isn't null.
 		/// </summary>
 		/// <param name="stateId">The State to enqueue.</param>
-		public void EnqueueState(StateID stateId)
+		public void EnqueueState(string stateId)
 		{
-			if (stateId != StateID.None)
+			if (stateId != null && states.ContainsKey(stateId))
 			{
-				int id = (int)stateId;
-				stateQueue.Enqueue(_allStates[id]);
-			}
-		}
-
-		public void EnqueueState(string id)
-		{
-			if (states.ContainsKey(id))
-			{
-				stateQueue.Enqueue(states[id]);
+				stateQueue.Enqueue(states[stateId]);
 			}
 		}
 
@@ -72,8 +64,10 @@ namespace Drot
 					SetCurrentState(stateQueue.Dequeue());
 				}
 
-				StateID queuedStateId = curState.OnUpdate();
-				EnqueueState(queuedStateId);
+				//StateID queuedStateId = curState.OnUpdate();
+				//EnqueueState(queuedStateId);
+				string queuedState = curState.OnUpdate();
+				EnqueueState(queuedState);
 
 			} while (stateQueue.Count > 0);
 		}

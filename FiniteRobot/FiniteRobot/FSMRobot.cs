@@ -46,7 +46,7 @@ namespace Drot
 		public override void OnScannedRobot(ScannedRobotEvent evnt)
 		{
 			enemyData.SetData(evnt.Name, evnt.Bearing, Time);
-			_stateMachine.EnqueueState(StateID.Attack);
+			_stateMachine.EnqueueState("Attack");
 			radarDir *= -1;
 			//SetHeading(evnt.Bearing);
 			SetTurnRight(evnt.Bearing);
@@ -55,7 +55,7 @@ namespace Drot
 	    public override void OnHitByBullet(HitByBulletEvent evnt)
 	    {
 		    bulletData.SetData(evnt.Heading, Time);
-			_stateMachine.EnqueueState(StateID.Escape);
+			_stateMachine.EnqueueState("Escape");
 		}
 
 	    public override void OnRobotDeath(RobotDeathEvent evnt)
