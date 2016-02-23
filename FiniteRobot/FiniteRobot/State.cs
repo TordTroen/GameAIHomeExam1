@@ -2,18 +2,12 @@
 {
 	public class State
 	{
-		public StateID ID { get; set; }
 		public string Id { get; set; }
 		protected FSMRobot robot;
 
 		public State()
 		{
 			
-		}
-
-		public State(StateID id)
-		{
-			ID = id;
 		}
 
 		public void Initialize(string id, FSMRobot robot)
@@ -24,7 +18,7 @@
 
 		public virtual void OnEnter()
 		{
-			robot.Out.WriteLine("Entered state '{0}'", ID); // DEBUG
+			robot.Out.WriteLine("{0:000}: Entered state '{1}'", robot.Time, Id); // DEBUG
 		}
 
 		/// <summary>
@@ -40,13 +34,13 @@
 
 		public virtual string OnUpdate()
 		{
-			robot.Out.WriteLine("Updated state '{0}'", ID); // DEBUG
+			robot.Out.WriteLine("{0:000}: Updated state '{1}'", robot.Time, Id); // DEBUG
 			return null;
 		}
 
 		public virtual void OnExit()
 		{
-			robot.Out.WriteLine("Exited state '{0}'", ID); // DEBUG
+			robot.Out.WriteLine("{0:000}: Exited state '{1}'", robot.Time, Id); // DEBUG
 		}
 	}
 }

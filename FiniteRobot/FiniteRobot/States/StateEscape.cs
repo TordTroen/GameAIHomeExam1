@@ -20,7 +20,7 @@ namespace Drot.States
 
 		public override string OnUpdate()
 		{
-			string ret = null;
+			string ret = base.OnUpdate();
 			robot.SetAhead(30);
 			if (robot.TurnRemaining.IsZero())
 			{

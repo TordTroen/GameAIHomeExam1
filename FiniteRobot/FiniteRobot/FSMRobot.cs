@@ -1,4 +1,5 @@
-﻿using Robocode;
+﻿using System.Drawing;
+using Robocode;
 
 namespace Drot
 {
@@ -6,23 +7,24 @@ namespace Drot
     {
 		public EnemyData enemyData;
 		public BulletData bulletData;
-		private FiniteStateMachine _stateMachine;
-		private FiniteStateMachine _bodyFSM;
-		private FiniteStateMachine _gunFSM;
+		private FiniteStateMachine bodyFSM;
+		private FiniteStateMachine gunFSM;
 		private int radarDir = 1;
+	    private Drawing drawing;
 
 		public override void Run()
 		{
 			InitializeBot();
-			
+			IsAdjustRadarForGunTurn = false;
+
 			SetHeading(0);
 
 			while (true)
 			{
-				_stateMachine.Update();
+				bodyFSM.Update();
+				gunFSM.Update();
 
 				SetTurnRadarLeft(360 * radarDir);
-
 				Execute();
 			}
 		}
@@ -34,10 +36,10 @@ namespace Drot
 
 		private void InitializeBot()
 		{
-			_stateMachine = new FiniteStateMachine(this);
-			_bodyFSM = new FiniteStateMachine(this);
-			_gunFSM = new FiniteStateMachine(this);
-			enemyData = new EnemyData();
+			drawing = new Drawing(this);
+			bodyFSM = new FiniteStateMachine(this);
+			gunFSM = new FiniteStateMachine(this);
+			enemyData = new EnemyData(this);
 			bulletData = new BulletData();
 		}
 
@@ -45,17 +47,21 @@ namespace Drot
 
 		public override void OnScannedRobot(ScannedRobotEvent evnt)
 		{
-			enemyData.SetData(evnt.Name, evnt.Bearing, Time);
-			_stateMachine.EnqueueState("Attack");
+			//enemyData.SetData(evnt.Name, evnt.Distance, evnt.Bearing, Time);
+			enemyData.SetData(evnt);
+			gunFSM.EnqueueState("Attack");
+			bodyFSM.EnqueueState("Pursuit");
 			radarDir *= -1;
 			//SetHeading(evnt.Bearing);
 			SetTurnRight(evnt.Bearing);
+
+			drawing.DrawBox(Color.Brown, enemyData.Position, 200);
 		}
 
 	    public override void OnHitByBullet(HitByBulletEvent evnt)
 	    {
 		    bulletData.SetData(evnt.Heading, Time);
-			_stateMachine.EnqueueState("Escape");
+			bodyFSM.EnqueueState("Escape");
 		}
 
 	    public override void OnRobotDeath(RobotDeathEvent evnt)

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using Drot.States;
 
 namespace Drot
@@ -9,21 +10,26 @@ namespace Drot
 		public Queue<State> stateQueue = new Queue<State>();
 		private readonly State[] _allStates; // Contains all possible states, so we don't have to make several instances of the same state
 		private const int MaxTransitionsPerFrame = 10;
-		private Dictionary<string, State> states;
-		
+		//private Dictionary<string, State> states;
+		private readonly StateManager states;
+		private TextWriter io; // DEBUG
+
 		public FiniteStateMachine(FSMRobot robot)
 		{
-			states = new Dictionary<string, State>
-			{
-				{ "Idle", new StateIdle() },
-				{ "Attack", new StateAttack() },
-				{ "Escape", new StateAttack() }
-			};
-			foreach (var item in states)
-			{
-				//item.Value.Id = item.Key;
-				item.Value.Initialize(item.Key, robot);
-			}
+			io = robot.Out; // DEBUG
+			// Add the classes to the dictionary with a string id as key
+			//states = new Dictionary<string, State>
+			//{
+			//	{ "Idle", new StateIdle() },
+			//	{ "Attack", new StateAttack() },
+			//	{ "Escape", new StateAttack() }
+			//};
+			//// Initialize the states with the dictionary entry's key and a reference to the robot
+			//foreach (var item in states)
+			//{
+			//	//item.Value.Id = item.Key;
+			//	item.Value.Initialize(item.Key, robot);
+			//}
 
 			//_allStates = new State[] { new StateIdle(), new StateAttack(), new StateEscape() };
 			//foreach (var state in _allStates)
@@ -31,18 +37,24 @@ namespace Drot
 			//	state.Initialize(robot);
 			//}
 			//SetCurrentState(_allStates[0]);
-			SetCurrentState(states["Idle"]);
+
+			states = new StateManager(robot);
+
+			// Start in the idle state
+			SetCurrentState(states.GetState("Idle"));
+			//SetCurrentState(states["Idle"]);
 		}
 
 		/// <summary>
-		/// Enqueues a state with the gives stateID. Checks to make sure stateID isn't null.
+		/// Enqueues a state with the gives stateID. 
+		/// Checks to make sure stateID isn't null or the same as the current state.
 		/// </summary>
 		/// <param name="stateId">The State to enqueue.</param>
 		public void EnqueueState(string stateId)
 		{
-			if (stateId != null && states.ContainsKey(stateId))
+			if (stateId != null && states.HasState(stateId) && curState != states.GetState(stateId))
 			{
-				stateQueue.Enqueue(states[stateId]);
+				stateQueue.Enqueue(states.GetState(stateId));
 			}
 		}
 
@@ -67,6 +79,7 @@ namespace Drot
 				//StateID queuedStateId = curState.OnUpdate();
 				//EnqueueState(queuedStateId);
 				string queuedState = curState.OnUpdate();
+				//io.WriteLine("Queued: " + queuedState);
 				EnqueueState(queuedState);
 
 			} while (stateQueue.Count > 0);
