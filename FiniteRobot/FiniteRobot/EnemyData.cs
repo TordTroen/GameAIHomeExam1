@@ -8,6 +8,7 @@ namespace Drot
 	{
 		public string Name { get; set; }
 		public double Bearing { get; set; }
+		public double Heading { get; set; }
 		public double Distance { get; set; }
 		public double Velocity { get; set; }
 		public long UpdateTime { get; set; } // The time we last set this data
@@ -33,6 +34,7 @@ namespace Drot
 			{
 				Name = scanEvnt.Name;
 				Bearing = scanEvnt.Bearing;
+				Heading = scanEvnt.Heading;
 				Distance = scanEvnt.Distance;
 				Velocity = scanEvnt.Velocity;
 				UpdateTime = scanEvnt.Time;
@@ -49,6 +51,7 @@ namespace Drot
 			{
 				Name = "";
 				Bearing = 0.0;
+				Heading = 0.0;
 				Distance = 0.0;
 				Velocity = 0.0;
 				UpdateTime = 0;
@@ -56,14 +59,9 @@ namespace Drot
 			}
 		}
 
-
-
-		//public void SetData(string name, double bearing, double distance, long updateTime)
-		//{
-		//	Name = name;
-		//	Bearing = bearing;
-		//	Distance = distance;
-		//	UpdateTime = updateTime;
-		//}
+		public Vector2D GetFuturePosition(double time)
+		{
+			return Position.ProjectForTime(Utils.DegToRad(Heading), Velocity, time);
+		}
 	}
 }

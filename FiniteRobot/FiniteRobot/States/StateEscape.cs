@@ -15,13 +15,13 @@ namespace Drot.States
 			{
 				flip = -1;
 			}
-			robot.SetTurnLeft((robot.Heading - robot.bulletData.Heading) * flip);
+			//robot.SetTurnLeft((robot.Heading - robot.bulletData.Heading) * flip);
 		}
 
 		public override string OnUpdate()
 		{
 			string ret = base.OnUpdate();
-			robot.SetAhead(30);
+			//robot.SetAhead(30);
 			if (robot.TurnRemaining.IsZero())
 			{
 				ret = "Idle";

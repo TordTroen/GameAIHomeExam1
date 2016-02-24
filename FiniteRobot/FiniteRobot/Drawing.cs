@@ -27,5 +27,11 @@ namespace Drot
 				(int)(pos.Y - (height / 2)),
 				width, height);
 		}
+
+		public void DrawLine(Color color, Vector2D start, Vector2D end, int alpha = 255, float width = 10f)
+		{
+			Color col = Color.FromArgb(alpha, color);
+			robot.Graphics.DrawLine(new Pen(col, width), (float)start.X, (float)start.Y, (float)end.X, (float)end.Y);
+		}
 	}
 }

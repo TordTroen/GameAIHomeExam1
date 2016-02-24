@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,6 +27,20 @@ namespace Drot.Helpers
 		{
 			X = x;
 			Y = y;
+		}
+
+		public double Distance(Vector2D v)
+		{
+			double dx = v.X - X;
+			double dy = v.Y - Y;
+			return Math.Sqrt((dx * dx) + (dy * dy));
+		}
+
+		public Vector2D ProjectForTime(double headingRadians, double velocity, double time)
+		{
+			return new Vector2D(
+				X + (Math.Sin(headingRadians) * velocity * time),
+				Y + (Math.Cos(headingRadians) * velocity * time));
 		}
 	}
 }

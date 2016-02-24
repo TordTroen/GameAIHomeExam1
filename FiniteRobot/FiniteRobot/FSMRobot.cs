@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using Drot.Helpers;
 using Robocode;
 
 namespace Drot
@@ -10,20 +11,20 @@ namespace Drot
 		private FiniteStateMachine bodyFSM;
 		private FiniteStateMachine gunFSM;
 		private int radarDir = 1;
-	    private Drawing drawing;
+	    public Drawing drawing;
 
 		public override void Run()
 		{
 			InitializeBot();
 			IsAdjustRadarForGunTurn = false;
-
+			IsAdjustGunForRobotTurn = false;
 			SetHeading(0);
-
 			while (true)
 			{
 				bodyFSM.Update();
 				gunFSM.Update();
-
+				Vector2D pos = new Vector2D(X, Y);
+				drawing.DrawLine(Color.BlueViolet, pos, pos.ProjectForTime(GunHeadingRadians, 10, 10));
 				SetTurnRadarLeft(360 * radarDir);
 				Execute();
 			}
