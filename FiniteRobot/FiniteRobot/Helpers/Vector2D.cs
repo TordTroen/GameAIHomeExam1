@@ -42,5 +42,16 @@ namespace Drot.Helpers
 				X + (Math.Sin(headingRadians) * velocity * time),
 				Y + (Math.Cos(headingRadians) * velocity * time));
 		}
+
+		/// <summary>
+		/// Makes sure the X and Y values are within the specified limits.
+		/// </summary>
+		public void Clamp(double xMin, double yMin, double xMax, double yMax)
+		{
+			if (X < xMin) X = xMin;
+			else if (X > xMax) X = xMax;
+			else if (Y < yMin) Y = yMin;
+			else if (Y > yMax) Y = yMax;
+		}
 	}
 }

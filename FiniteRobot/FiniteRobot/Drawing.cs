@@ -33,5 +33,11 @@ namespace Drot
 			Color col = Color.FromArgb(alpha, color);
 			robot.Graphics.DrawLine(new Pen(col, width), (float)start.X, (float)start.Y, (float)end.X, (float)end.Y);
 		}
+
+		public void DrawString(Color color, string s, Vector2D pos, int alpha = 255)
+		{
+			Color col = Color.FromArgb(alpha, color);
+			robot.Graphics.DrawString(s, new Font(new FontFamily("Arial"), 1), new SolidBrush(col), (int)pos.X, (int)pos.Y);
+		}
 	}
 }

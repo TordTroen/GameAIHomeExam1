@@ -2,6 +2,7 @@
 using System.Drawing;
 using Drot.Helpers;
 using Robocode;
+using Robocode.Util;
 
 namespace Drot.States
 {
@@ -30,31 +31,51 @@ namespace Drot.States
 			// turn the gun that way so we can shoot
 			// shoot small bullets until we have finished turning (then shoot large)
 
-			double power = 3;
-			double bulletSpeed = Rules.GetBulletSpeed(power);
+
+
+			// It hits most of the time... 
+
+
+
+
 			double dist = robot.enemyData.Distance;
+			robot.drawing.DrawString(Color.Red, "Dist: " + dist.ToString("F2"), new Vector2D(0, -20));
+			double power = Math.Min(500 / dist, 3);
+			double bulletSpeed = Rules.GetBulletSpeed(power);
 			double hitTime = dist / bulletSpeed;
 
-			// TODO Clamp to screen
-			Vector2D enemyFuturePos = robot.enemyData.GetFuturePosition(hitTime);
-			robot.drawing.DrawBox(Color.DeepPink, enemyFuturePos, 128);
+			Vector2D ePos = robot.enemyData.Position;
+			Vector2D efPos = robot.enemyData.GetFuturePosition(hitTime);
+
+			efPos.Clamp(0, 0, robot.BattleFieldWidth, robot.BattleFieldHeight);
+			robot.drawing.DrawBox(Color.DeepPink, efPos, 128);
 			Vector2D pos = new Vector2D(robot.X, robot.Y);
 			robot.drawing.DrawBox(Color.Gold, pos, 128);
+			double angle = 0;
 
-			double dx = enemyFuturePos.X - pos.X;
-			double dy = enemyFuturePos.Y - pos.Y;
+			//angle = Utils.RadToDeg(Math.Atan2(ePos.Y - pos.Y, ePos.X - pos.X));
+			//if (angle < 0)
+			//{
+			//	angle += 360;
+			//}
+			//angle = NormBearing(angle);
+			//robot.SetTurnGunRight(angle - robot.GunHeading);
 
-
+			double dx = efPos.X - pos.X;
+			double dy = efPos.Y - pos.Y;
 			//double absBearingDeg = (robot.Heading + robot.enemyData.Bearing);
 			//while (absBearingDeg < 0) absBearingDeg += 360;
-			double absDeg = AbsBearing(pos, enemyFuturePos);
+			//double absDeg = AbsBearing(pos, efPos);
+			double absDeg = Math.Atan2(dx, dy);
+			//absDeg = Utils.RadToDeg(absDeg);
+			absDeg *= 180/Math.PI;
 
-			//double angle = Math.Atan2(enemyFuturePos.Y - pos.Y, enemyFuturePos.X - pos.X) * 180 / Math.PI;
-			double angle = NormBearing(absDeg - robot.GunHeading);
+			// angle = Math.Atan2(efPos.Y - pos.Y, efPos.X - pos.X) * 180 / Math.PI;
+			angle = NormBearing(absDeg - robot.GunHeading);
 			robot.SetTurnGunRight(angle);
-
 			robot.drawing.DrawLine(Color.Cyan, pos, pos.ProjectForTime(Utils.DegToRad(NormBearing(absDeg)), 100, 100));
 
+			//robot.drawing.DrawLine(Color.Cyan, pos, pos.ProjectForTime(Utils.DegToRad(angle), 100, 100));
 			//robot.SetAhead(100);
 			robot.SetFire(power);
 

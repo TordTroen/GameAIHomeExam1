@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using Drot.Helpers;
 using Robocode;
 
@@ -18,6 +19,7 @@ namespace Drot
 			InitializeBot();
 			IsAdjustRadarForGunTurn = false;
 			IsAdjustGunForRobotTurn = false;
+			IsAdjustRadarForRobotTurn = false;
 			SetHeading(0);
 			while (true)
 			{
@@ -25,7 +27,7 @@ namespace Drot
 				gunFSM.Update();
 				Vector2D pos = new Vector2D(X, Y);
 				drawing.DrawLine(Color.BlueViolet, pos, pos.ProjectForTime(GunHeadingRadians, 10, 10));
-				SetTurnRadarLeft(360 * radarDir);
+				SetTurnRadarLeft(double.PositiveInfinity * radarDir);
 				Execute();
 			}
 		}
@@ -55,7 +57,6 @@ namespace Drot
 			radarDir *= -1;
 			//SetHeading(evnt.Bearing);
 			SetTurnRight(evnt.Bearing);
-
 			drawing.DrawBox(Color.Brown, enemyData.Position, 200);
 		}
 
