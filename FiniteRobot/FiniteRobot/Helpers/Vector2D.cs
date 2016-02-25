@@ -53,5 +53,10 @@ namespace Drot.Helpers
 			else if (Y < yMin) Y = yMin;
 			else if (Y > yMax) Y = yMax;
 		}
+
+		public static double AbsoluteDegrees(Vector2D a, Vector2D b)
+		{
+			return Utility.RadToDeg(Math.Atan2(b.X - a.X, b.Y - a.Y));
+		}
 	}
 }

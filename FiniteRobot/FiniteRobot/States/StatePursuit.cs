@@ -14,8 +14,9 @@ namespace Drot.States
 		{
 			string ret = base.OnUpdate();
 
+			// TODO improve this
 			double diff = robot.enemyData.Distance - prefferedEnemyDistance - 36; // 36 to account for the robot size
-			robot.SetAhead(diff);
+			robot.SetAhead(1000 * robot.moveDir);
 			robot.SetTurnRight(robot.enemyData.Bearing + 90);
 			
 

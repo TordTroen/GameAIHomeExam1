@@ -13,7 +13,9 @@ namespace Drot
 		private FiniteStateMachine gunFSM;
 		private int radarDir = 1;
 	    private bool hitEnemy = false;
-
+	    private bool hitByEnemy = false;
+	    public int ConsecutiveHits { get; set; }
+	    public int moveDir = 1;
 	    public Drawing drawing;
 
 		public override void Run()
@@ -28,17 +30,21 @@ namespace Drot
 				bodyFSM.Update();
 				gunFSM.Update();
 				Vector2D pos = new Vector2D(X, Y);
-				drawing.DrawLine(Color.White, pos, pos.ProjectForTime(HeadingRadians, 10, 10));
+				drawing.DrawLine(Color.White, pos, pos.ProjectForTime(HeadingRadians, Velocity, 10));
 				SetTurnRadarLeft(double.PositiveInfinity * radarDir);
 
-				drawing.DrawString(Color.Red, "HitEnemy: " + hitEnemy, new Vector2D(0, -30));
-				if (!hitEnemy && enemyData.EnergyChanged)
-				{
-					// Assume enemy bullet will hit where we are now
-					bodyFSM.EnqueueState("Dodge");
-				}
+				drawing.DrawString(Color.Red, "Hits: " + ConsecutiveHits, new Vector2D(0, -70));
+				//bool dodge = false;
+				//if (!hitEnemy && enemyData.EnergyChanged && hitByEnemy)
+				//{
+				//	// Assume enemy bullet will hit where we are now
+				//	bodyFSM.EnqueueState("Dodge");
+				//	dodge = true;
+				//}
+				//drawing.DrawString(Color.Red, "Dodge: " + dodge, new Vector2D(0, -30));
 
-				hitEnemy = false;
+				//hitByEnemy = false;
+				//hitEnemy = false;
 				Execute();
 			}
 		}
@@ -64,11 +70,14 @@ namespace Drot
 			//enemyData.SetData(evnt.Name, evnt.Distance, evnt.Bearing, Time);
 			enemyData.SetData(evnt);
 			gunFSM.EnqueueState("Attack");
-			bodyFSM.EnqueueState("Pursuit");
+			if (bodyFSM.CurrentStateID != "Dodge")
+			{
+				bodyFSM.EnqueueState("Pursuit");
+			}
 			radarDir *= -1;
 			//SetHeading(evnt.Bearing);
 			//SetTurnRight(evnt.Bearing * 180);
-			drawing.DrawBox(Color.Brown, enemyData.Position, 200);
+			//drawing.DrawBox(Color.Brown, enemyData.Position, 200);
 		}
 
 	    public override void OnHitByBullet(HitByBulletEvent evnt)
@@ -79,7 +88,18 @@ namespace Drot
 
 	    public override void OnBulletHit(BulletHitEvent evnt)
 	    {
+		    ConsecutiveHits ++;
 		    hitEnemy = true;
+	    }
+
+	    public override void OnBulletMissed(BulletMissedEvent evnt)
+	    {
+		    ConsecutiveHits = 0;
+	    }
+
+	    public override void OnHitWall(HitWallEvent evnt)
+	    {
+		    moveDir *= -1;
 	    }
 
 	    public override void OnRobotDeath(RobotDeathEvent evnt)

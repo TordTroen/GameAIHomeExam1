@@ -7,6 +7,7 @@ namespace Drot
 	public class FiniteStateMachine
 	{
 		public State curState;
+		public string CurrentStateID { get { return curState.Id; } }
 		public Queue<State> stateQueue = new Queue<State>();
 		private readonly State[] _allStates; // Contains all possible states, so we don't have to make several instances of the same state
 		private const int MaxTransitionsPerFrame = 10;
