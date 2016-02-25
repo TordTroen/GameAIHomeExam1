@@ -19,7 +19,7 @@ namespace Drot
 			{
 				{ "Idle", new StateIdle() },
 				{ "Attack", new StateAttack() },
-				{ "Escape", new StateEscape() },
+				{ "Dodge", new StateDodge() },
 				{ "Pursuit", new StatePursuit() }
 			};
 			// Initialize the states with the dictionary entry's key and a reference to the robot

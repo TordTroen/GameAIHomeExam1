@@ -1,6 +1,7 @@
 ﻿using System;
 using Drot.Helpers;
 using Robocode;
+using Robocode.Util;
 
 namespace Drot
 {
@@ -11,8 +12,12 @@ namespace Drot
 		public double Heading { get; set; }
 		public double Distance { get; set; }
 		public double Velocity { get; set; }
+		public double Energy { get; set; }
+		public double OldEnergy { get; set; }
 		public long UpdateTime { get; set; } // The time we last set this data
 		public Vector2D Position { get; set; }
+
+		public bool EnergyChanged { get { return Utils.IsNear(OldEnergy, Energy); } }
 		private readonly FSMRobot robot;
 
 		public EnemyData(FSMRobot robot)
@@ -24,12 +29,13 @@ namespace Drot
 
 		public void Reset()
 		{
-			//SetData("", 0.0, 0.0, 0);
 			SetData(null);
 		}
 
 		public void SetData(ScannedRobotEvent scanEvnt)
 		{
+			OldEnergy = Energy;
+
 			if (scanEvnt != null)
 			{
 				Name = scanEvnt.Name;
@@ -38,6 +44,7 @@ namespace Drot
 				Distance = scanEvnt.Distance;
 				Velocity = scanEvnt.Velocity;
 				UpdateTime = scanEvnt.Time;
+				Energy = scanEvnt.Energy;
 
 				if (robot != null)
 				{
@@ -61,7 +68,7 @@ namespace Drot
 
 		public Vector2D GetFuturePosition(double time)
 		{
-			return Position.ProjectForTime(Utils.DegToRad(Heading), Velocity, time);
+			return Position.ProjectForTime(Utility.DegToRad(Heading), Velocity, time);
 		}
 	}
 }

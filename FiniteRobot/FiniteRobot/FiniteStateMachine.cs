@@ -12,11 +12,9 @@ namespace Drot
 		private const int MaxTransitionsPerFrame = 10;
 		//private Dictionary<string, State> states;
 		private readonly StateManager states;
-		private TextWriter io; // DEBUG
 
 		public FiniteStateMachine(FSMRobot robot)
 		{
-			io = robot.Out; // DEBUG
 			// Add the classes to the dictionary with a string id as key
 			//states = new Dictionary<string, State>
 			//{
@@ -31,7 +29,7 @@ namespace Drot
 			//	item.Value.Initialize(item.Key, robot);
 			//}
 
-			//_allStates = new State[] { new StateIdle(), new StateAttack(), new StateEscape() };
+			//_allStates = new State[] { new StateIdle(), new StateAttack(), new StateDidge() };
 			//foreach (var state in _allStates)
 			//{
 			//	state.Initialize(robot);
@@ -79,7 +77,6 @@ namespace Drot
 				//StateID queuedStateId = curState.OnUpdate();
 				//EnqueueState(queuedStateId);
 				string queuedState = curState.OnUpdate();
-				//io.WriteLine("Queued: " + queuedState);
 				EnqueueState(queuedState);
 
 			} while (stateQueue.Count > 0);
