@@ -5,8 +5,6 @@ namespace Drot
 {
 	public static class Utility
 	{
-		private static Random rnd = new Random();
-
 		public static bool IsZero(this double val, double offByTolerance = 0.00001)
 		{
 			return Math.Abs(val) < offByTolerance;
@@ -22,7 +20,7 @@ namespace Drot
 			return deg * (Math.PI / 180);
 		}
 
-		public static int RandomSign()
+		public static int RandomSign(this Random rnd)
 		{
 			return rnd.Next(0, 2) * 2 - 1;
 		}

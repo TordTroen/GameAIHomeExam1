@@ -20,7 +20,8 @@ namespace Drot
 				{ "Idle", new StateIdle() },
 				{ "Attack", new StateAttack() },
 				{ "Dodge", new StateDodge() },
-				{ "Pursuit", new StatePursuit() }
+				{ "Pursuit", new StatePursuit() },
+				{ "CircleEnemy", new StateCircleEnemy() }
 			};
 			// Initialize the states with the dictionary entry's key and a reference to the robot
 			foreach (var item in states)

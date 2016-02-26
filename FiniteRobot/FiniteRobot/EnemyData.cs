@@ -17,7 +17,7 @@ namespace Drot
 		public long UpdateTime { get; set; } // The time we last set this data
 		public Vector2D Position { get; set; }
 
-		public bool EnergyChanged { get { return Utils.IsNear(OldEnergy, Energy); } }
+		public bool EnergyChanged { get { return !Utils.IsNear(OldEnergy, Energy); } }
 		private readonly FSMRobot robot;
 
 		public EnemyData(FSMRobot robot)

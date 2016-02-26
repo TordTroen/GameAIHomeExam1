@@ -8,10 +8,22 @@ namespace Drot.States
 {
 	public class StateAttack : State
 	{
+		private double firingPower;
+
 		public override string OnUpdate()
 		{
 			string ret = base.OnUpdate();
+			
+			// Control the robot
+			double angle = LinearTargeting();
+			robot.SetTurnGunRight(angle);
+			robot.Fire(firingPower);
 
+			return ret;
+		}
+
+		private double LinearTargeting()
+		{
 			// TODO
 			// Solve enemy's position for (t)
 			// use the time the bullet wil take to enemys distance in that function
@@ -23,15 +35,15 @@ namespace Drot.States
 
 			// Firing calculations
 			double dist = robot.enemyData.Distance;
-			double power = Math.Min(500 / dist, 3);
+			firingPower = Math.Min(500 / dist, 3);
 
 			// TODO Take min() of the below and 1.75 (used if we miss a lot (maybe less than 50% accuracy?))
 			if (robot.ConsecutiveHits < 2 || robot.enemyData.Energy <= 3)
 			{
-				power = 1;
+				firingPower = 1;
 			}
 
-			double bulletSpeed = Rules.GetBulletSpeed(power);
+			double bulletSpeed = Rules.GetBulletSpeed(firingPower);
 			double hitTime = dist / bulletSpeed;
 
 			// TODO Account for enemy acceleration when pedicting the position
@@ -39,7 +51,7 @@ namespace Drot.States
 			// Get the positions
 			Vector2D efPos = robot.enemyData.GetFuturePosition(hitTime);
 			efPos.Clamp(0, 0, robot.BattleFieldWidth, robot.BattleFieldHeight);
-			Vector2D pos = new Vector2D(robot.X, robot.Y);
+			Vector2D pos = new Vector2D(robot.Position);
 
 			// Find the angle to the enemy predicted position
 			//double dx = efPos.X - pos.X;
@@ -48,16 +60,12 @@ namespace Drot.States
 			double absDeg = Vector2D.AbsoluteDegrees(pos, efPos);
 			double angle = Utils.NormalRelativeAngleDegrees(absDeg - robot.GunHeading);
 
-			// Control the robot
-			robot.SetTurnGunRight(angle);
-			robot.Fire(power);
-
 			// Debug
 			robot.drawing.DrawBox(Color.DeepPink, efPos, 128);
 			//robot.drawing.DrawBox(Color.Gold, pos, 128);
 			robot.drawing.DrawLine(Color.Cyan, pos, pos.ProjectForTime(Utility.DegToRad(Utils.NormalRelativeAngleDegrees(absDeg)), 100, 100));
 
-			return ret;
+			return angle;
 		}
 	}
 }
