@@ -16,14 +16,17 @@ namespace Drot
 		public double OldEnergy { get; set; }
 		public long UpdateTime { get; set; } // The time we last set this data
 		public Vector2D Position { get; set; }
+		public Vector2D LastPosition { get; set; }
 
 		public bool EnergyChanged { get { return !Utils.IsNear(OldEnergy, Energy); } }
 		private readonly FSMRobot robot;
+		private const long ValidDataTime = 10;
 
 		public EnemyData(FSMRobot robot)
 		{
 			this.robot = robot;
 			Position = new Vector2D();
+			LastPosition = new Vector2D();
 			Reset();
 		}
 
@@ -35,6 +38,7 @@ namespace Drot
 		public void SetData(ScannedRobotEvent scanEvnt)
 		{
 			OldEnergy = Energy;
+			LastPosition = new Vector2D(Position);
 
 			if (scanEvnt != null)
 			{
@@ -69,6 +73,11 @@ namespace Drot
 		public Vector2D GetFuturePosition(double time)
 		{
 			return Position.ProjectForTime(Utility.DegToRad(Heading), Velocity, time);
+		}
+
+		public bool ValidData()
+		{
+			return true;//robot.Time - UpdateTime > ValidDataTime;
 		}
 	}
 }

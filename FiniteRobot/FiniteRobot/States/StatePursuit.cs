@@ -14,25 +14,26 @@ namespace Drot.States
 
 		private Vector2D velocity = new Vector2D(1, 1);
 		private double maxVelocity = 1;
-		private double maxSpeed = 1;
+		private double maxSpeed = 8;
 		private double mass = 1;
 		private Random rnd = new Random();
+		private double pursuitOffsetAngle;
+
+		public override void OnEnter()
+		{
+			pursuitOffsetAngle = RandomPursuitAngleOffset(20, 30);
+		}
 
 		public override string OnUpdate()
 		{
 			string ret = base.OnUpdate();
 
-			if (robot.enemyData.Distance < robot.prefferedEnemyDistance)
+			if (robot.enemyData.Distance < robot.prefferedEnemyDistance * 0.8)
 			{
 				ret = "CircleEnemy";
 			}
 			else
 			{
-				// TODO improve this
-				double diff = robot.enemyData.Distance - prefferedEnemyDistance - 36; // 36 to account for the robot size
-				//robot.SetAhead(1000 * robot.wallHitMovementDir);
-				//robot.SetTurnRight(robot.enemyData.Bearing + 90);
-
 				// TODO Turn this into a function in a class or something
 
 				// Steering behaviour stuff
@@ -55,8 +56,8 @@ namespace Drot.States
 				//double angle = Math.Atan2(position.Y, position.X);
 				//angle = Utils.NormalRelativeAngleDegrees(Utils.ToDegrees(angle - robot.Heading));
 				double angle = Utils.NormalRelativeAngleDegrees(absDeg - robot.Heading);
-				robot.SetTurnRight(angle + RandomPursuitAngleOffset(20, 30));
-				robot.SetAhead(position.Length);
+				robot.SetTurnRight(angle + pursuitOffsetAngle);
+				robot.SetAhead(maxSpeed);
 			}
 
 			return ret;

@@ -39,5 +39,12 @@ namespace Drot
 			Color col = Color.FromArgb(alpha, color);
 			robot.Graphics.DrawString(s, new Font(new FontFamily("Arial"), 1), new SolidBrush(col), (int)pos.X, (int)pos.Y);
 		}
+
+		public void DrawCircle(Color color, Vector2D pos, float width, float height, float stroke = 6f, int alpha = 255)
+		{
+			Color col = Color.FromArgb(alpha, color);
+			robot.Graphics.DrawEllipse(new Pen(col, stroke), (float)pos.X - width / 2, 
+										(float)pos.Y - height / 2, width, height);
+		}
 	}
 }

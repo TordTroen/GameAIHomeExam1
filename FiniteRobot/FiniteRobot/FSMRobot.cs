@@ -2,6 +2,7 @@
 using System.Drawing;
 using Drot.Helpers;
 using Robocode;
+using Robocode.Util;
 
 namespace Drot
 {
@@ -32,15 +33,19 @@ namespace Drot
 			IsAdjustGunForRobotTurn = false;
 			IsAdjustRadarForRobotTurn = false;
 			SetHeading(0);
+			//SetTurnRadarRight(360);//double.PositiveInfinity);// * radarDir);
+			RadarSweep();
+
 			while (true)
 			{
 				bodyFSM.Update();
 				gunFSM.Update();
 				drawing.DrawLine(Color.White, Position, Position.ProjectForTime(HeadingRadians, Velocity, 10));
-				SetTurnRadarLeft(double.PositiveInfinity * radarDir);
+
+				//SetTurnRadarLeft(double.PositiveInfinity * radarDir);
 
 				drawing.DrawString(Color.Black, "Hits: " + ConsecutiveHits, new Vector2D(0, -70));
-
+				drawing.DrawCircle(Color.BlueViolet, enemyData.Position, (float)prefferedEnemyDistance*2, (float)prefferedEnemyDistance*2);
 				drawing.DrawString(Color.Black, "Body: " + bodyFSM.CurrentStateID, new Vector2D(0, -100));
 				drawing.DrawString(Color.Black, "Gun : " + gunFSM.CurrentStateID, new Vector2D(0, -130));
 				//bool dodge = false;
@@ -54,6 +59,13 @@ namespace Drot
 
 				//hitByEnemy = false;
 				//hitEnemy = false;
+				//Scan();
+
+				if (!enemyData.ValidData() && enemyData.LastPosition == enemyData.Position)
+				{
+					RadarSweep();
+				}
+
 				Execute();
 			}
 		}
@@ -73,6 +85,11 @@ namespace Drot
 			WallHitMovementDir = 1;
 		}
 
+	    private void RadarSweep()
+	    {
+		    SetTurnRadarRight(double.PositiveInfinity);
+	    }
+
 		// ROBOCODE EVENTS // 
 
 		public override void OnScannedRobot(ScannedRobotEvent evnt)
@@ -85,10 +102,13 @@ namespace Drot
 			//{
 			//	bodyFSM.EnqueueState("Pursuit");
 			//}
-			radarDir *= -1;
+			//radarDir *= -1;
 			//SetHeading(evnt.Bearing);
 			//SetTurnRight(evnt.Bearing * 180);
 			//drawing.DrawBox(Color.Brown, enemyData.Position, 200);
+
+			double turn = HeadingRadians + evnt.BearingRadians - RadarHeadingRadians;
+			SetTurnRadarRightRadians(2 * Utils.NormalRelativeAngle(turn));
 		}
 
 	    public override void OnHitByBullet(HitByBulletEvent evnt)
