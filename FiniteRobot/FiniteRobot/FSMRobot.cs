@@ -3,10 +3,11 @@ using System.Drawing;
 using Drot.Helpers;
 using Robocode;
 using Robocode.Util;
+using Drot;
 
-namespace Drot
+namespace PG4500_2016_Exam1
 {
-    public class FSMRobot : AdvancedRobot
+    public class trotor14 : AdvancedRobot
     {
 		public EnemyData enemyData;
 		public BulletData bulletData;
@@ -32,7 +33,7 @@ namespace Drot
 		{
 			InitializeBot();
 
-			radarFSM.EnqueueState("RadarSweep");
+			radarFSM.EnqueueState(StateManager.StateRadarSweep);
 
 			//SetHeading(0);
 			//SetTurnRadarRight(360);//double.PositiveInfinity);// * radarDir);
@@ -114,9 +115,9 @@ namespace Drot
 		{
 			//enemyData.SetData(evnt.Name, evnt.Distance, evnt.Bearing, Time);
 			enemyData.SetData(evnt);
-			gunFSM.EnqueueState("Attack");
-			bodyFSM.EnqueueState("Pursuit");
-			radarFSM.EnqueueState("ScanLock");
+			gunFSM.EnqueueState(StateManager.StateAttack);
+			bodyFSM.EnqueueState(StateManager.StatePursuit);
+			radarFSM.EnqueueState(StateManager.StateScanLock);
 
 
 			//double turn = HeadingRadians + evnt.BearingRadians - RadarHeadingRadians;
@@ -133,7 +134,7 @@ namespace Drot
 	    {
 		    ConsecutiveHits ++;
 			ConsecutiveMisses = 0;
-		    hitEnemy = true;
+		    //hitEnemy = true;
 	    }
 
 	    public override void OnBulletMissed(BulletMissedEvent evnt)

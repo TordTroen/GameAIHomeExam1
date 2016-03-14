@@ -1,16 +1,18 @@
-﻿namespace Drot
+﻿using PG4500_2016_Exam1;
+
+namespace Drot
 {
 	public class State
 	{
 		public string Id { get; private set; }
-		protected FSMRobot robot;
+		protected trotor14 robot;
 
 		public State()
 		{
 			
 		}
 
-		public void Initialize(string id, FSMRobot robot)
+		public void Initialize(string id, trotor14 robot)
 		{
 			Id = id;
 			this.robot = robot;

@@ -5,28 +5,37 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Drot.States;
+using PG4500_2016_Exam1;
 
 namespace Drot
 {
 	// Holds all states, so we only have one instance of each class
 	public class StateManager
 	{
-		private readonly Dictionary<string, State> states;
-		private FSMRobot robot;
+		public const string StateIdle = "Idle";
+		public const string StateAttack = "Attack";
+		public const string StateDodge = "Dodge";
+		public const string StatePursuit = "Pursuit";
+		public const string StateCircleEnemy = "CircleEnemy";
+		public const string StateScanLock = "ScanLock";
+		public const string StateRadarSweep = "RadarSweep";
 
-		public StateManager(FSMRobot robot)
+		private readonly Dictionary<string, State> states;
+		private trotor14 robot;
+
+		public StateManager(trotor14 robot)
 		{
 			this.robot = robot;
 
 			states = new Dictionary<string, State>
 			{
-				{ "Idle", new StateIdle() },
-				{ "Attack", new GunStateLinearAttack() },
-				{ "Dodge", new BodyStateDodge() },
-				{ "Pursuit", new BodyStatePursuit() },
-				{ "CircleEnemy", new BodyStateCircleEnemy() },
-				{ "ScanLock", new RadarStateScanLock() },
-				{ "RadarSweep", new RadarStateScanSweep() }
+				{ StateIdle, new StateIdle() },
+				{ StateAttack, new GunStateLinearAttack() },
+				{ StateDodge, new BodyStateDodge() },
+				{ StatePursuit, new BodyStatePursuit() },
+				{ StateCircleEnemy, new BodyStateCircleEnemy() },
+				{ StateScanLock, new RadarStateScanLock() },
+				{ StateRadarSweep, new RadarStateScanSweep() }
 			};
 			// Initialize the states with the dictionary entry's key and a reference to the robot
 			foreach (var item in states)

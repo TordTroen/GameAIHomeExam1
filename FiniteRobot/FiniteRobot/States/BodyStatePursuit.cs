@@ -34,33 +34,31 @@ namespace Drot.States
 			}
 			else
 			{
-				// TODO Turn this into a function in a class or something
-
-				// Steering behaviour stuff
-				Vector2D position = new Vector2D(robot.Position);
-				//velocity = (robot.enemyData.Position - position).Normalize();
-				Vector2D desiredVelocity = Vector2D.Normalize(robot.enemyData.Position - position) * maxVelocity;
-				Vector2D steering = desiredVelocity - velocity;
-
-				steering.Truncate(maxVelocity);
-				steering = steering / mass;
-
-				velocity = velocity + steering;
-				velocity.Truncate(maxSpeed);
-
-				position = position + velocity;
+				Vector2D position = Seek();
 
 				// Translating into robocode
-				//double angle = Utils.NormalRelativeAngleDegrees(absDeg - robot.GunHeading);
 				double absDeg = Vector2D.AbsoluteDegrees(position, robot.enemyData.Position);
-				//double angle = Math.Atan2(position.Y, position.X);
-				//angle = Utils.NormalRelativeAngleDegrees(Utils.ToDegrees(angle - robot.Heading));
 				double angle = Utils.NormalRelativeAngleDegrees(absDeg - robot.Heading);
 				robot.SetTurnRight(angle + pursuitOffsetAngle);
 				robot.SetAhead(maxSpeed);
 			}
 
 			return ret;
+		}
+
+		private Vector2D Seek()
+		{
+			Vector2D position = new Vector2D(robot.Position);
+			Vector2D desiredVelocity = Vector2D.Normalize(robot.enemyData.Position - position) * maxVelocity;
+			Vector2D steering = desiredVelocity - velocity;
+
+			steering.Truncate(maxVelocity);
+			steering = steering / mass;
+
+			velocity = velocity + steering;
+			velocity.Truncate(maxSpeed);
+
+			return position + velocity;
 		}
 
 		private double RandomPursuitAngleOffset(double min, double max)

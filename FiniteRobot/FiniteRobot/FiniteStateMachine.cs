@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using Drot.States;
+using PG4500_2016_Exam1;
 
 namespace Drot
 {
@@ -14,12 +15,12 @@ namespace Drot
 		//private Dictionary<string, State> states;
 		private readonly StateManager states;
 
-		public FiniteStateMachine(FSMRobot robot)
+		public FiniteStateMachine(trotor14 robot)
 		{
 			states = new StateManager(robot);
 
 			// Start in the idle state
-			SetCurrentState(states.GetState("Idle"));
+			SetCurrentState(states.GetState(StateManager.StateIdle));
 		}
 
 		/// <summary>

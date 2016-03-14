@@ -2,6 +2,7 @@
 using Drot.Helpers;
 using Robocode;
 using Robocode.Util;
+using PG4500_2016_Exam1;
 
 namespace Drot
 {
@@ -20,12 +21,12 @@ namespace Drot
 		public Vector2D LastPosition { get; set; }
 
 		public bool EnergyChanged { get { return !Utils.IsNear(OldEnergy, Energy); } }
-		private readonly FSMRobot robot;
+		private readonly trotor14 robot;
 		public long ValidDataTime { get; set; }
 		public const long ValidDataTimeOnHits = 10;
 		public const long ValidDataTimeOnMisses = 4;
 
-		public EnemyData(FSMRobot robot)
+		public EnemyData(trotor14 robot)
 		{
 			this.robot = robot;
 			Position = new Vector2D();

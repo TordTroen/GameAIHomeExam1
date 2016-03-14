@@ -9,6 +9,8 @@ namespace Drot.States
 {
 	public class RadarStateScanLock : State
 	{
+		private const double LockValue = 3;
+
 		public override void OnEnter()
 		{
 			RadarLock();
@@ -32,7 +34,7 @@ namespace Drot.States
 		private void RadarLock()
 		{
 			double turn = robot.HeadingRadians + robot.enemyData.BearingRadians - robot.RadarHeadingRadians;
-			robot.SetTurnRadarRightRadians(2 * Utils.NormalRelativeAngle(turn));
+			robot.SetTurnRadarRightRadians(LockValue * Utils.NormalRelativeAngle(turn));
 		}
 	}
 }

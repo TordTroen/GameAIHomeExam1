@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 using System.Drawing;
 using Drot.Helpers;
 using Robocode.Util;
+using PG4500_2016_Exam1;
 
 namespace Drot
 {
 	public class Drawing
 	{
-		private FSMRobot robot;
+		private trotor14 robot;
 		private Font font;
 
-		public Drawing(FSMRobot robot)
+		public Drawing(trotor14 robot)
 		{
 			this.robot = robot;
 			font = new Font(new FontFamily("Arial"), 1);
