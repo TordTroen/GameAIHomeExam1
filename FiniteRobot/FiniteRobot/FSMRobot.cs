@@ -7,7 +7,7 @@ using Drot;
 
 namespace PG4500_2016_Exam1
 {
-    public class trotor14 : AdvancedRobot
+    public class Trotor14 : AdvancedRobot
     {
 		public EnemyData enemyData;
 		public BulletData bulletData;

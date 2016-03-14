@@ -5,14 +5,14 @@ namespace Drot
 	public class State
 	{
 		public string Id { get; private set; }
-		protected trotor14 robot;
+		protected Trotor14 robot;
 
 		public State()
 		{
 			
 		}
 
-		public void Initialize(string id, trotor14 robot)
+		public void Initialize(string id, Trotor14 robot)
 		{
 			Id = id;
 			this.robot = robot;

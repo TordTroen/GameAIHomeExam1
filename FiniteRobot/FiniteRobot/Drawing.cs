@@ -12,10 +12,10 @@ namespace Drot
 {
 	public class Drawing
 	{
-		private trotor14 robot;
+		private Trotor14 robot;
 		private Font font;
 
-		public Drawing(trotor14 robot)
+		public Drawing(Trotor14 robot)
 		{
 			this.robot = robot;
 			font = new Font(new FontFamily("Arial"), 1);

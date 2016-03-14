@@ -15,7 +15,7 @@ namespace Drot
 		//private Dictionary<string, State> states;
 		private readonly StateManager states;
 
-		public FiniteStateMachine(trotor14 robot)
+		public FiniteStateMachine(Trotor14 robot)
 		{
 			states = new StateManager(robot);
 
