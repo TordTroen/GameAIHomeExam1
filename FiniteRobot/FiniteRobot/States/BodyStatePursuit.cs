@@ -8,7 +8,7 @@ using Robocode.Util;
 
 namespace Drot.States
 {
-	public class StatePursuit : State
+	public class BodyStatePursuit : State
 	{
 		private const double prefferedEnemyDistance = 250.0;
 

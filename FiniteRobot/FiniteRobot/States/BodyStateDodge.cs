@@ -5,7 +5,7 @@ using Robocode.Util;
 
 namespace Drot.States
 {
-	public class StateDodge : State
+	public class BodyStateDodge : State
 	{
 		private Random rnd = new Random();
 

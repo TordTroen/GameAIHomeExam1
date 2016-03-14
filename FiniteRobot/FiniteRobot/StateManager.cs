@@ -12,21 +12,25 @@ namespace Drot
 	public class StateManager
 	{
 		private readonly Dictionary<string, State> states;
+		private FSMRobot robot;
 
 		public StateManager(FSMRobot robot)
 		{
+			this.robot = robot;
+
 			states = new Dictionary<string, State>
 			{
 				{ "Idle", new StateIdle() },
-				{ "Attack", new StateAttack() },
-				{ "Dodge", new StateDodge() },
-				{ "Pursuit", new StatePursuit() },
-				{ "CircleEnemy", new StateCircleEnemy() }
+				{ "Attack", new GunStateLinearAttack() },
+				{ "Dodge", new BodyStateDodge() },
+				{ "Pursuit", new BodyStatePursuit() },
+				{ "CircleEnemy", new BodyStateCircleEnemy() },
+				{ "ScanLock", new RadarStateScanLock() },
+				{ "RadarSweep", new RadarStateScanSweep() }
 			};
 			// Initialize the states with the dictionary entry's key and a reference to the robot
 			foreach (var item in states)
 			{
-				//item.Value.Id = item.Key;
 				item.Value.Initialize(item.Key, robot);
 			}
 		}
@@ -37,6 +41,10 @@ namespace Drot
 			if (HasState(stateId))
 			{
 				state = states[stateId];
+			}
+			else
+			{
+				robot.Out.WriteLine(string.Format("Couldn't find the state '{0}'", stateId));	
 			}
 			return state;
 		}

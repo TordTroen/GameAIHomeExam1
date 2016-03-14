@@ -2,7 +2,7 @@
 {
 	public class State
 	{
-		public string Id { get; set; }
+		public string Id { get; private set; }
 		protected FSMRobot robot;
 
 		public State()

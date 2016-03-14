@@ -27,15 +27,21 @@ namespace Drot.Helpers
 			Set(x, y);
 		}
 
-		public Vector2D(Vector2D cloned)
+		public Vector2D(Vector2D clone)
 		{
-			Set(cloned.X, cloned.Y);
+			Set(clone);
 		}
 
 		public void Set(double x, double y)
 		{
 			X = x;
 			Y = y;
+		}
+
+		public void Set(Vector2D v)
+		{
+			X = v.X;
+			Y = v.Y;
 		}
 
 		public double Distance(Vector2D v)
@@ -111,7 +117,11 @@ namespace Drot.Helpers
 
 		public static bool operator ==(Vector2D v, Vector2D u)
 		{
-			if (v == null || u == null)
+			if (ReferenceEquals(v, u))
+			{
+				return true;
+			}
+			if (((object)v == null) || ((object)u == null))
 			{
 				return false;
 			}

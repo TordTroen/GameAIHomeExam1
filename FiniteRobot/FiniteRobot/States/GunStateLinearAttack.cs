@@ -6,7 +6,7 @@ using Robocode.Util;
 
 namespace Drot.States
 {
-	public class StateAttack : State
+	public class GunStateLinearAttack : State
 	{
 		private double firingPower;
 

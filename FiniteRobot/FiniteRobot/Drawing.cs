@@ -12,10 +12,12 @@ namespace Drot
 	public class Drawing
 	{
 		private FSMRobot robot;
+		private Font font;
 
 		public Drawing(FSMRobot robot)
 		{
 			this.robot = robot;
+			font = new Font(new FontFamily("Arial"), 1);
 		}
 
 		public void DrawBox(Color color, Vector2D pos, int alpha = 255,
@@ -37,7 +39,7 @@ namespace Drot
 		public void DrawString(Color color, string s, Vector2D pos, int alpha = 255)
 		{
 			Color col = Color.FromArgb(alpha, color);
-			robot.Graphics.DrawString(s, new Font(new FontFamily("Arial"), 1), new SolidBrush(col), (int)pos.X, (int)pos.Y);
+			robot.Graphics.DrawString(s, font, new SolidBrush(col), (int)pos.X, (int)pos.Y);
 		}
 
 		public void DrawCircle(Color color, Vector2D pos, float width, float height, float stroke = 6f, int alpha = 255)

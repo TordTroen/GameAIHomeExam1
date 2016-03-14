@@ -12,10 +12,12 @@ namespace Drot
 		public BulletData bulletData;
 		private FiniteStateMachine bodyFSM;
 		private FiniteStateMachine gunFSM;
-		private int radarDir = 1;
-	    private bool hitEnemy = false;
-	    private bool hitByEnemy = false;
+		private FiniteStateMachine radarFSM;
+		//private int radarDir = 1;
+		//private bool hitEnemy = false;
+		//private bool hitByEnemy = false;
 	    public int ConsecutiveHits { get; set; }
+	    public int ConsecutiveMisses { get; set; }
 
 		/// <summary>
 		/// An int that flips between 1 and -1 when the robot hits a wall
@@ -29,17 +31,18 @@ namespace Drot
 		public override void Run()
 		{
 			InitializeBot();
-			IsAdjustRadarForGunTurn = false;
-			IsAdjustGunForRobotTurn = false;
-			IsAdjustRadarForRobotTurn = false;
-			SetHeading(0);
+
+			radarFSM.EnqueueState("RadarSweep");
+
+			//SetHeading(0);
 			//SetTurnRadarRight(360);//double.PositiveInfinity);// * radarDir);
-			RadarSweep();
+			//RadarSweep();
 
 			while (true)
 			{
 				bodyFSM.Update();
 				gunFSM.Update();
+				radarFSM.Update();
 				drawing.DrawLine(Color.White, Position, Position.ProjectForTime(HeadingRadians, Velocity, 10));
 
 				//SetTurnRadarLeft(double.PositiveInfinity * radarDir);
@@ -61,9 +64,18 @@ namespace Drot
 				//hitEnemy = false;
 				//Scan();
 
-				if (!enemyData.ValidData() && enemyData.LastPosition == enemyData.Position)
+				//if (!enemyData.ValidData() && enemyData.LastPosition == enemyData.Position)
+				//{
+				//	RadarSweep();
+				//}
+
+				if (ConsecutiveHits > ConsecutiveMisses)
 				{
-					RadarSweep();
+					enemyData.ValidDataTime = EnemyData.ValidDataTimeOnHits;
+				}
+				else
+				{
+					enemyData.ValidDataTime = EnemyData.ValidDataTimeOnMisses;
 				}
 
 				Execute();
@@ -80,9 +92,15 @@ namespace Drot
 			drawing = new Drawing(this);
 			bodyFSM = new FiniteStateMachine(this);
 			gunFSM = new FiniteStateMachine(this);
+			radarFSM = new FiniteStateMachine(this);
+
 			enemyData = new EnemyData(this);
 			bulletData = new BulletData();
 			WallHitMovementDir = 1;
+
+			IsAdjustRadarForGunTurn = false;
+			IsAdjustGunForRobotTurn = false;
+			IsAdjustRadarForRobotTurn = false;
 		}
 
 	    private void RadarSweep()
@@ -98,17 +116,11 @@ namespace Drot
 			enemyData.SetData(evnt);
 			gunFSM.EnqueueState("Attack");
 			bodyFSM.EnqueueState("Pursuit");
-			//if (bodyFSM.CurrentStateID != "Dodge")
-			//{
-			//	bodyFSM.EnqueueState("Pursuit");
-			//}
-			//radarDir *= -1;
-			//SetHeading(evnt.Bearing);
-			//SetTurnRight(evnt.Bearing * 180);
-			//drawing.DrawBox(Color.Brown, enemyData.Position, 200);
+			radarFSM.EnqueueState("ScanLock");
 
-			double turn = HeadingRadians + evnt.BearingRadians - RadarHeadingRadians;
-			SetTurnRadarRightRadians(2 * Utils.NormalRelativeAngle(turn));
+
+			//double turn = HeadingRadians + evnt.BearingRadians - RadarHeadingRadians;
+			//SetTurnRadarRightRadians(2 * Utils.NormalRelativeAngle(turn));
 		}
 
 	    public override void OnHitByBullet(HitByBulletEvent evnt)
@@ -120,12 +132,14 @@ namespace Drot
 	    public override void OnBulletHit(BulletHitEvent evnt)
 	    {
 		    ConsecutiveHits ++;
+			ConsecutiveMisses = 0;
 		    hitEnemy = true;
 	    }
 
 	    public override void OnBulletMissed(BulletMissedEvent evnt)
 	    {
 		    ConsecutiveHits = 0;
+			ConsecutiveMisses ++;
 	    }
 
 	    public override void OnHitWall(HitWallEvent evnt)

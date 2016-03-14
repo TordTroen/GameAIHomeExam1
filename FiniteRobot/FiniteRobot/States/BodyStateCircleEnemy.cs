@@ -7,7 +7,7 @@ using Drot.Helpers;
 
 namespace Drot.States
 {
-	public class StateCircleEnemy : State
+	public class BodyStateCircleEnemy : State
 	{
 		private double screenMargin = 100;
 

@@ -9,6 +9,7 @@ namespace Drot
 	{
 		public string Name { get; set; }
 		public double Bearing { get; set; }
+		public double BearingRadians { get; set; }
 		public double Heading { get; set; }
 		public double Distance { get; set; }
 		public double Velocity { get; set; }
@@ -20,7 +21,9 @@ namespace Drot
 
 		public bool EnergyChanged { get { return !Utils.IsNear(OldEnergy, Energy); } }
 		private readonly FSMRobot robot;
-		private const long ValidDataTime = 10;
+		public long ValidDataTime { get; set; }
+		public const long ValidDataTimeOnHits = 10;
+		public const long ValidDataTimeOnMisses = 4;
 
 		public EnemyData(FSMRobot robot)
 		{
@@ -32,18 +35,20 @@ namespace Drot
 
 		public void Reset()
 		{
+			ValidDataTime = ValidDataTimeOnMisses;
 			SetData(null);
 		}
 
 		public void SetData(ScannedRobotEvent scanEvnt)
 		{
 			OldEnergy = Energy;
-			LastPosition = new Vector2D(Position);
+			LastPosition.Set(Position);
 
 			if (scanEvnt != null)
 			{
 				Name = scanEvnt.Name;
 				Bearing = scanEvnt.Bearing;
+				BearingRadians = scanEvnt.BearingRadians;
 				Heading = scanEvnt.Heading;
 				Distance = scanEvnt.Distance;
 				Velocity = scanEvnt.Velocity;
@@ -62,6 +67,7 @@ namespace Drot
 			{
 				Name = "";
 				Bearing = 0.0;
+				BearingRadians = 0.0;
 				Heading = 0.0;
 				Distance = 0.0;
 				Velocity = 0.0;
@@ -77,7 +83,7 @@ namespace Drot
 
 		public bool ValidData()
 		{
-			return true;//robot.Time - UpdateTime > ValidDataTime;
+			return (robot.Time - UpdateTime > ValidDataTime);
 		}
 	}
 }

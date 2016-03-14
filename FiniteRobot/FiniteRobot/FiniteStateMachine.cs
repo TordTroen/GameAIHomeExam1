@@ -9,39 +9,17 @@ namespace Drot
 		public State curState;
 		public string CurrentStateID { get { return curState.Id; } }
 		public Queue<State> stateQueue = new Queue<State>();
-		private readonly State[] _allStates; // Contains all possible states, so we don't have to make several instances of the same state
+		//private readonly State[] _allStates; // Contains all possible states, so we don't have to make several instances of the same state
 		private const int MaxTransitionsPerFrame = 10;
 		//private Dictionary<string, State> states;
 		private readonly StateManager states;
 
 		public FiniteStateMachine(FSMRobot robot)
 		{
-			// Add the classes to the dictionary with a string id as key
-			//states = new Dictionary<string, State>
-			//{
-			//	{ "Idle", new StateIdle() },
-			//	{ "Attack", new StateAttack() },
-			//	{ "Escape", new StateAttack() }
-			//};
-			//// Initialize the states with the dictionary entry's key and a reference to the robot
-			//foreach (var item in states)
-			//{
-			//	//item.Value.Id = item.Key;
-			//	item.Value.Initialize(item.Key, robot);
-			//}
-
-			//_allStates = new State[] { new StateIdle(), new StateAttack(), new StateDidge() };
-			//foreach (var state in _allStates)
-			//{
-			//	state.Initialize(robot);
-			//}
-			//SetCurrentState(_allStates[0]);
-
 			states = new StateManager(robot);
 
 			// Start in the idle state
 			SetCurrentState(states.GetState("Idle"));
-			//SetCurrentState(states["Idle"]);
 		}
 
 		/// <summary>
@@ -75,8 +53,6 @@ namespace Drot
 					SetCurrentState(stateQueue.Dequeue());
 				}
 
-				//StateID queuedStateId = curState.OnUpdate();
-				//EnqueueState(queuedStateId);
 				string queuedState = curState.OnUpdate();
 				EnqueueState(queuedState);
 
