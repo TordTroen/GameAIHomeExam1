@@ -17,7 +17,7 @@ namespace Drot.States
 			// Control the robot
 			double angle = LinearTargeting();
 			robot.SetTurnGunRight(angle);
-			robot.Fire(firingPower);
+			//robot.Fire(firingPower);
 
 			return ret;
 		}

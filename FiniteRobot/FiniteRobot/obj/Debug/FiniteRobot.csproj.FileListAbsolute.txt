@@ -5,13 +5,9 @@ C:\MyVS\AI\Øvinger\FiniteRobot\FiniteRobot\FiniteRobot\bin\Debug\Drot.FiniteRob
 C:\MyVS\AI\Øvinger\FiniteRobot\FiniteRobot\FiniteRobot\bin\Debug\Drot.FiniteRobot_1.0.pdb
 C:\MyVS\AI\Øvinger\FiniteRobot\FiniteRobot\FiniteRobot\obj\Debug\Drot.FiniteRobot_1.0.dll
 C:\MyVS\AI\Øvinger\FiniteRobot\FiniteRobot\FiniteRobot\obj\Debug\Drot.FiniteRobot_1.0.pdb
-C:\MyVS\AI\Innlevering1\RepoRoot\FiniteRobot\FiniteRobot\bin\Debug\Drot.FiniteRobot_1.0.dll
-C:\MyVS\AI\Innlevering1\RepoRoot\FiniteRobot\FiniteRobot\bin\Debug\Drot.FiniteRobot_1.0.pdb
 C:\MyVS\AI\Innlevering1\RepoRoot\FiniteRobot\FiniteRobot\bin\Debug\robocode.dll
 C:\MyVS\AI\Innlevering1\RepoRoot\FiniteRobot\FiniteRobot\bin\Debug\robocode.xml
 C:\MyVS\AI\Innlevering1\RepoRoot\FiniteRobot\FiniteRobot\obj\Debug\FiniteRobot.csprojResolveAssemblyReference.cache
-C:\MyVS\AI\Innlevering1\RepoRoot\FiniteRobot\FiniteRobot\obj\Debug\Drot.FiniteRobot_1.0.dll
-C:\MyVS\AI\Innlevering1\RepoRoot\FiniteRobot\FiniteRobot\obj\Debug\Drot.FiniteRobot_1.0.pdb
 C:\MyVS\Skole\AI\Robocode\Innlevering01\FiniteRobot\FiniteRobot\obj\Debug\FiniteRobot.csprojResolveAssemblyReference.cache
 C:\MyVS\Skole\AI\Robocode\Innlevering01\FiniteRobot\FiniteRobot\bin\Debug\PG4500_2016_Exam1.trotor14.dll
 C:\MyVS\Skole\AI\Robocode\Innlevering01\FiniteRobot\FiniteRobot\bin\Debug\PG4500_2016_Exam1.trotor14.pdb
@@ -19,3 +15,7 @@ C:\MyVS\Skole\AI\Robocode\Innlevering01\FiniteRobot\FiniteRobot\obj\Debug\PG4500
 C:\MyVS\Skole\AI\Robocode\Innlevering01\FiniteRobot\FiniteRobot\obj\Debug\PG4500_2016_Exam1.trotor14.pdb
 C:\MyVS\Skole\AI\Robocode\Innlevering01\FiniteRobot\FiniteRobot\bin\Debug\robocode.dll
 C:\MyVS\Skole\AI\Robocode\Innlevering01\FiniteRobot\FiniteRobot\bin\Debug\robocode.xml
+C:\MyVS\AI\Innlevering1\RepoRoot\FiniteRobot\FiniteRobot\bin\Debug\PG4500_2016_Exam1.trotor14.dll
+C:\MyVS\AI\Innlevering1\RepoRoot\FiniteRobot\FiniteRobot\bin\Debug\PG4500_2016_Exam1.trotor14.pdb
+C:\MyVS\AI\Innlevering1\RepoRoot\FiniteRobot\FiniteRobot\obj\Debug\PG4500_2016_Exam1.trotor14.dll
+C:\MyVS\AI\Innlevering1\RepoRoot\FiniteRobot\FiniteRobot\obj\Debug\PG4500_2016_Exam1.trotor14.pdb

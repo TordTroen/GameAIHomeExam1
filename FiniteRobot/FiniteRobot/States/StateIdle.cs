@@ -1,4 +1,4 @@
-﻿namespace Drot.States
+﻿namespace Drot
 {
 	public class StateIdle : State
 	{

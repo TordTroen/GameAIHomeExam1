@@ -84,7 +84,9 @@ namespace Drot
 
 		public bool ValidData()
 		{
-			return (robot.Time - UpdateTime > ValidDataTime);
+			long deltaTime = robot.Time - UpdateTime;
+			return (deltaTime < ValidDataTime);
 		}
 	}
 }
+         

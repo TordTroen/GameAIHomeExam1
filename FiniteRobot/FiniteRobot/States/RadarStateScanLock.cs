@@ -9,7 +9,7 @@ namespace Drot.States
 {
 	public class RadarStateScanLock : State
 	{
-		private const double LockValue = 3;
+		private const double LockValue = 2;
 
 		public override void OnEnter()
 		{
@@ -22,7 +22,7 @@ namespace Drot.States
 
 			if (!robot.enemyData.ValidData())
 			{
-				ret = "RadarSweep";
+				ret = StateManager.StateRadarSweep;
 			}
 			else
 			{

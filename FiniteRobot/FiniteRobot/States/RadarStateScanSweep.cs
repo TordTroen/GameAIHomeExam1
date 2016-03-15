@@ -10,12 +10,12 @@ namespace Drot.States
 	{
 		public override void OnEnter()
 		{
-			robot.SetTurnRight(double.PositiveInfinity);
+			robot.SetTurnRadarRight(double.PositiveInfinity);
 		}
 
 		public override void OnExit()
 		{
-			robot.SetTurnRight(0.0);
+			robot.SetTurnRadarRight(0.0);
 		}
 	}
 }

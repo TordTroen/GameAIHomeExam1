@@ -21,7 +21,7 @@ namespace Drot
 		public const string StateRadarSweep = "RadarSweep";
 
 		private readonly Dictionary<string, State> states;
-		private Trotor14 robot;
+		private readonly Trotor14 robot;
 
 		public StateManager(Trotor14 robot)
 		{

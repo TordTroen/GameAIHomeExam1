@@ -17,13 +17,13 @@ namespace Drot.States
 
 			if (robot.enemyData.Distance > robot.prefferedEnemyDistance * 1.2)
 			{
-				ret = "Pursuit";
+				ret = StateManager.StatePursuit;
 			}
 			else
 			{
 				// TODO This will just make it circle rightways(?), so if it is to the left of the enemy, it will circle away from the enemy...
-				robot.SetTurnRight(robot.enemyData.Bearing + 90);
-				robot.SetAhead(100 * robot.WallHitMovementDir);
+				//robot.SetTurnRight(robot.enemyData.Bearing + 90);
+				//robot.SetAhead(100 * robot.WallHitMovementDir);
 			}
 
 			return ret;

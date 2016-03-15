@@ -50,8 +50,9 @@ namespace PG4500_2016_Exam1
 
 				drawing.DrawString(Color.Black, "Hits: " + ConsecutiveHits, new Vector2D(0, -70));
 				drawing.DrawCircle(Color.BlueViolet, enemyData.Position, (float)prefferedEnemyDistance*2, (float)prefferedEnemyDistance*2);
-				drawing.DrawString(Color.Black, "Body: " + bodyFSM.CurrentStateID, new Vector2D(0, -100));
-				drawing.DrawString(Color.Black, "Gun : " + gunFSM.CurrentStateID, new Vector2D(0, -130));
+				drawing.DrawString(Color.Black, "Body  : " + bodyFSM.CurrentStateID, new Vector2D(0, -100));
+				drawing.DrawString(Color.Black, "Gun   : " + gunFSM.CurrentStateID, new Vector2D(0, -130));
+				drawing.DrawString(Color.Black, "Radar : " + radarFSM.CurrentStateID, new Vector2D(0, -160));
 				//bool dodge = false;
 				//if (!hitEnemy && enemyData.EnergyChanged && hitByEnemy)
 				//{
@@ -85,7 +86,7 @@ namespace PG4500_2016_Exam1
 
 	    public void SetHeading(double degrees)
 	    {
-		    SetTurnRight((-Heading) + degrees);
+		    //SetTurnRight((-Heading) + degrees);
 	    }
 
 		private void InitializeBot()
