@@ -9,6 +9,10 @@ namespace PG4500_2016_Exam1
 {
     public class Trotor14 : AdvancedRobot
     {
+		public const double Mass = 1;
+		public const double VelocityMax = 8;
+		public const double SpeedMax = 8;
+
 		public EnemyData enemyData;
 		public BulletData bulletData;
 		private FiniteStateMachine bodyFSM;
@@ -27,6 +31,12 @@ namespace PG4500_2016_Exam1
 
 	    public Drawing drawing;
 		public Vector2D Position { get { return new Vector2D(X, Y); } }
+		public Vector2D VelocityVector {
+			get {
+				if (Velocity.IsZero()) return new Vector2D();
+				return new Vector2D(Velocity * Math.Cos(HeadingRadians), Velocity * Math.Sin(HeadingRadians));
+			}
+		}
 	    public double prefferedEnemyDistance = 250;
 
 		public override void Run()
