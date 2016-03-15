@@ -11,11 +11,13 @@ namespace Drot
 	{
 		public Vector2D position;
 		public double angle;
+		public double speed;
 
-		public Behavior(Vector2D pos, double ang)
+		public Behavior(Vector2D pos, double ang, double speed)
 		{
 			position = pos;
 			angle = ang;
+			this.speed = speed;
 		}
 	}
 }

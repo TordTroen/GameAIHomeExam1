@@ -22,7 +22,7 @@ namespace Drot
 
 		public virtual Behavior GetBehavior(Vector2D targetPos)
 		{
-			return new Behavior(new Vector2D(), 0.0);
+			return new Behavior(new Vector2D(), 0.0, 0.0);
 		}
 	}
 }

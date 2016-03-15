@@ -49,7 +49,7 @@ namespace Drot
 
 			double absDeg = Vector2D.AbsoluteDegrees(robot.Position, targetPos);
 			double angle = Utils.NormalRelativeAngleDegrees(absDeg - robot.Heading);
-			return new Behavior(pos, angle);
+			return new Behavior(pos, angle, desiredVelocity.Length);
 		}
 	}
 }

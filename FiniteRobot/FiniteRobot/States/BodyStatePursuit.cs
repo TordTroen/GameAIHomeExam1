@@ -58,17 +58,17 @@ namespace Drot.States
 				//double angle = Utils.NormalRelativeAngleDegrees(absDeg - robot.Heading);
 				////double userAngle = angle*0.1;
 				////userAngle = (angle/360)*20;
-				Behavior b = arrival.GetBehavior(ranPos);
+				Behavior b = seek.GetBehavior(ranPos);
 				robot.drawing.DrawBox(Color.Red, b.position, 127);
 				robot.drawing.DrawBox(Color.Yellow, ranPos, 127);
 				//robot.drawing.DrawString(Color.Black, string.Format("Angle: {0}", b.angle), new Vector2D(0, -30));
 				robot.SetTurnRight(b.angle);
 				//robot.SetTurnRight((angle + pursuitOffsetAngle));
-				double ahead = b.position.Length; // TODO FIX THIS
+				double ahead = b.speed; // TODO FIX THIS
 												  // http://gamedev.stackexchange.com/questions/44400/arrive-steering-behavior
 
 
-				robot.drawing.DrawString(System.Drawing.Color.Black, string.Format("Ahead: {0:0.0}", ahead), new Vector2D(0, -50));
+				robot.drawing.DrawString(System.Drawing.Color.Black, string.Format("Ahead: {0}", ahead), new Vector2D(0, -50));
 				robot.SetAhead(ahead);
 			}
 
