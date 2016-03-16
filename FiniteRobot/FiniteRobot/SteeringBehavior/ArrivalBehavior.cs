@@ -19,12 +19,8 @@ namespace Drot
 			this.slowdownRadius = slowdownRadius;
 		}
 
-		public override BehaviorResult GetBehavior(Vector2D targetPos)
+		public override void Steer(Vector2D targetPos)
 		{
-			//robot.drawing.DrawCircle(System.Drawing.Color.Blue, targetPos, (float)slowdownRadius*2, (float)slowdownRadius*2);
-
-			// Store robot values
-			Vector2D velocity = robot.VelocityVector;
 			Vector2D curPos = robot.Position;
 
 			// Calculate the slowdownfactor based on the distance to the endtarget
@@ -34,11 +30,9 @@ namespace Drot
 			{
 				slowdownFactor = dist / slowdownRadius;
 			}
-			//robot.drawing.DrawString(System.Drawing.Color.Black, string.Format("Dist: {0:0.0} - Slow: {1:0.0}", dist, slowdownFactor), new Vector2D(0, -30));
-			Vector2D desiredVelocity = (Vector2D.Normalize(targetPos - curPos) * Trotor14.VelocityMax) * slowdownFactor;
+			Vector2D desiredVelocity = (Vector2D.Normalize(targetPos - curPos) * Trotor14.MaxSpeed) * slowdownFactor;
 
-			BehaviorResult behavior = ApplySteering(desiredVelocity, velocity, curPos);
-			return behavior;
+			ApplySteering(desiredVelocity);
 		}
 	}
 }

@@ -10,8 +10,7 @@ namespace PG4500_2016_Exam1
     public class Trotor14 : AdvancedRobot
     {
 		public const double Mass = 1;
-		public const double VelocityMax = 8;
-		public const double SpeedMax = 8;
+		public const double MaxSpeed = 8;
 
 		public EnemyData enemyData;
 		public BulletData bulletData;

@@ -16,9 +16,10 @@ namespace Drot
 
 		}
 
-		public override BehaviorResult GetBehavior(Vector2D targetPos)
+		public override void Steer(Vector2D targetPos)
 		{
-			return base.GetBehavior(targetPos);
+			Vector2D desiredVelocity = Vector2D.Normalize(targetPos - robot.Position) * Trotor14.MaxSpeed;
+			ApplySteering(desiredVelocity);
 		}
 	}
 }
