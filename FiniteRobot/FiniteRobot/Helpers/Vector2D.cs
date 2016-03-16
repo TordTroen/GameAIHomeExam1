@@ -78,6 +78,8 @@ namespace Drot.Helpers
 		public void Normalize()
 		{
 			double length = Length;
+			if (length.IsZero()) return;
+
 			X /= length;
 			Y /= length;
 		}
@@ -130,6 +132,11 @@ namespace Drot.Helpers
 		public static bool operator !=(Vector2D v, Vector2D u)
 		{
 			return !(v == u);
+		}
+
+		public override string ToString()
+		{
+			return string.Format("[{0}, {1}]", X, Y);
 		}
 	}
 }

@@ -32,7 +32,7 @@ namespace Drot
 			}
 			Vector2D desiredVelocity = (Vector2D.Normalize(targetPos - curPos) * Trotor14.MaxSpeed) * slowdownFactor;
 
-			ApplySteering(desiredVelocity);
+			ApplySteering(desiredVelocity, robot.VelocityVector);
 		}
 	}
 }

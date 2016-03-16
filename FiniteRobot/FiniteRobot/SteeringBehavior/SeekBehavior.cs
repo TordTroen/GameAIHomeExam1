@@ -20,7 +20,7 @@ namespace Drot
 		public override void Steer(Vector2D targetPos)
 		{
 			Vector2D desiredVelocity = Vector2D.Normalize(targetPos - robot.Position) * Trotor14.MaxSpeed;
-			ApplySteering(desiredVelocity);
+			ApplySteering(desiredVelocity, robot.VelocityVector);
 		}
 	}
 }

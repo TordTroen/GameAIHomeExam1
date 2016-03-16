@@ -23,10 +23,10 @@ namespace Drot
 
 		}
 
-		protected void ApplySteering(Vector2D desiredVelocity)
+		protected void ApplySteering(Vector2D desiredVelocity, Vector2D velocity)
 		{
 			Vector2D curPos = robot.Position;
-			Vector2D velocity = robot.VelocityVector;
+			//Vector2D velocity = robot.VelocityVector;
 
 			Vector2D steering = desiredVelocity - velocity;
 

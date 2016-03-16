@@ -24,7 +24,6 @@ namespace Drot.States
 
 		public override void OnEnter()
 		{
-			//pursuitOffsetAngle = RandomPursuitAngleOffset(20, 30);
 			velocity = new Vector2D(maxSpeed, maxSpeed);
 			seek = new SeekBehavior(robot);
 			arrival = new ArrivalBehavior(robot, 200);
@@ -57,33 +56,6 @@ namespace Drot.States
 			}
 
 			return ret;
-		}
-
-		private Vector2D Seek(Vector2D endTargetPos)
-		{
-			Vector2D position = new Vector2D(robot.Position);
-			Vector2D desiredVelocity = Vector2D.Normalize(endTargetPos - position) * maxVelocity;
-			//Vector2D desiredVelocity = Vector2D.Normalize(robot.enemyData.Position - position) * maxVelocity;
-			Vector2D steering = desiredVelocity - velocity;
-
-			steering.Truncate(maxVelocity);
-			steering = steering / mass;
-
-			velocity = velocity + steering;
-			velocity.Truncate(maxSpeed);
-
-			position = position + velocity;
-			return position;
-		}
-
-		private Vector2D GetEnemyPos()
-		{
-			return robot.enemyData.Position;
-		}
-
-		private double RandomPursuitAngleOffset(double min, double max)
-		{
-			return (rnd.NextDouble() * (max - min) + min) * rnd.RandomSign();
 		}
 	}
 }

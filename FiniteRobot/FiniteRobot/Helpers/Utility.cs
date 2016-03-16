@@ -24,5 +24,10 @@ namespace Drot
 		{
 			return rnd.Next(0, 2) * 2 - 1;
 		}
+
+		public static double RandomRange(this Random rnd, double min, double max)
+		{
+			return rnd.NextDouble() * (max - min) + min;
+		}
 	}
 }
