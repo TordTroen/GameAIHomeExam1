@@ -21,6 +21,7 @@ namespace Drot.States
 		private double pursuitOffsetAngle = 0.0;
 		private SeekBehavior seek;
 		private ArrivalBehavior arrival;
+		private WanderBehavior wander;
 
 		public override void OnEnter()
 		{
@@ -28,6 +29,7 @@ namespace Drot.States
 			velocity = new Vector2D(maxSpeed, maxSpeed);
 			seek = new SeekBehavior(robot);
 			arrival = new ArrivalBehavior(robot, 200);
+			wander = new WanderBehavior(robot);
 		}
 
 		private Vector2D ranPos = new Vector2D();
@@ -40,33 +42,33 @@ namespace Drot.States
 			if (robot.enemyData.Distance < robot.prefferedEnemyDistance * 0.8)
 			{
 				//ret = StateManager.StateCircleEnemy;
+				//ret = StateManager.StateOffensiveSelect;
 			}
 			//else
 			{
 				if (robot.Time - lastRndTime > 35)
 				{
 					lastRndTime = robot.Time;
-					//ranPos = new Vector2D(rnd.Next(0, (int)robot.BattleFieldWidth), rnd.Next(0, (int)robot.BattleFieldHeight));
+					ranPos = new Vector2D(rnd.Next(0, (int)robot.BattleFieldWidth), rnd.Next(0, (int)robot.BattleFieldHeight));
 				}
-				ranPos = new Vector2D(350, 350);
+				//ranPos = new Vector2D(350, 350);
 				//Vector2D targetPos = Seek(ranPos);
 				////Vector2D targetPos = Seek(robot.enemyData.Position);
-				
 
 				//// Translating into robocode
 				//double absDeg = Vector2D.AbsoluteDegrees(robot.Position, targetPos);
 				//double angle = Utils.NormalRelativeAngleDegrees(absDeg - robot.Heading);
 				////double userAngle = angle*0.1;
 				////userAngle = (angle/360)*20;
-				Behavior b = seek.GetBehavior(ranPos);
-				robot.drawing.DrawBox(Color.Red, b.position, 127);
+				//BehaviorResult b = arrival.GetBehavior(ranPos);
+				BehaviorResult b = wander.GetBehavior(ranPos);
+				//robot.drawing.DrawBox(Color.Red, b.position, 127);
 				robot.drawing.DrawBox(Color.Yellow, ranPos, 127);
 				//robot.drawing.DrawString(Color.Black, string.Format("Angle: {0}", b.angle), new Vector2D(0, -30));
 				robot.SetTurnRight(b.angle);
 				//robot.SetTurnRight((angle + pursuitOffsetAngle));
 				double ahead = b.speed; // TODO FIX THIS
 												  // http://gamedev.stackexchange.com/questions/44400/arrive-steering-behavior
-
 
 				robot.drawing.DrawString(System.Drawing.Color.Black, string.Format("Ahead: {0}", ahead), new Vector2D(0, -50));
 				robot.SetAhead(ahead);

@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace Drot
 {
-	public struct Behavior
+	public struct BehaviorResult
 	{
-		public Vector2D position;
+		//public Vector2D position;
 		public double angle;
 		public double speed;
 
-		public Behavior(Vector2D pos, double ang, double speed)
+		public BehaviorResult(/*Vector2D pos, */double ang, double speed)
 		{
-			position = pos;
+			//position = pos;
 			angle = ang;
 			this.speed = speed;
 		}
