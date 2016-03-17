@@ -11,32 +11,43 @@ namespace PG4500_2016_Exam1
     {
 		public const double Mass = 1;
 		public const double MaxSpeed = 8;
+		public const double PrefferedEnemyDistance = 2500;
 
-		public EnemyData enemyData;
-		public BulletData bulletData;
-		private FiniteStateMachine bodyFSM;
-		private FiniteStateMachine gunFSM;
-		private FiniteStateMachine radarFSM;
-		//private int radarDir = 1;
-		//private bool hitEnemy = false;
-		//private bool hitByEnemy = false;
-	    public int ConsecutiveHits { get; set; }
-	    public int ConsecutiveMisses { get; set; }
+		/// <summary>
+		/// Number of hits in a row. Resets when on miss.
+		/// </summary>
+		public int ConsecutiveHits { get; private set; }
+		/// <summary>
+		/// Number of misses in a row. Resets when on hit.
+		/// </summary>
+	    public int ConsecutiveMisses { get; private set; }
 
 		/// <summary>
 		/// An int that flips between 1 and -1 when the robot hits a wall
 		/// </summary>
 	    public int WallHitMovementDir { get; private set; }
+		//public Vector2D Position { get { return new Vector2D(X, Y); } }
+		public Vector2D Position { get; private set; }
+		public Vector2D LastPosition { get; private set; }
+		/// <summary>
+		/// Returns true if we haven moved for some time.
+		/// </summary>
+		public bool IsStuck { get { return (Time - lastDifferentPositionTime > 48); } }
 
-	    public Drawing drawing;
-		public Vector2D Position { get { return new Vector2D(X, Y); } }
 		public Vector2D VelocityVector {
 			get {
 				if (Velocity.IsZero()) return new Vector2D();
 				return new Vector2D(Velocity * Math.Cos(HeadingRadians), Velocity * Math.Sin(HeadingRadians));
 			}
 		}
-	    public double prefferedEnemyDistance = 250;
+		public Drawing Drawing { get; private set; }
+		public EnemyData enemyData;
+		public BulletData bulletData;
+		private FiniteStateMachine bodyFSM;
+		private FiniteStateMachine gunFSM;
+		private FiniteStateMachine radarFSM;
+		private long lastDifferentPositionTime;
+
 
 		public override void Run()
 		{
@@ -53,15 +64,15 @@ namespace PG4500_2016_Exam1
 				bodyFSM.Update();
 				gunFSM.Update();
 				radarFSM.Update();
-				drawing.DrawLine(Color.White, Position, Position.ProjectForTime(HeadingRadians, Velocity, 10));
+				Drawing.DrawLine(Color.White, Position, Position.ProjectForTime(HeadingRadians, Velocity, 10));
 
 				//SetTurnRadarLeft(double.PositiveInfinity * radarDir);
 
-				drawing.DrawString(Color.Black, "Hits: " + ConsecutiveHits, new Vector2D(0, -70));
-				drawing.DrawCircle(Color.BlueViolet, enemyData.Position, (float)prefferedEnemyDistance*2, (float)prefferedEnemyDistance*2);
-				drawing.DrawString(Color.Black, "Body  : " + bodyFSM.CurrentStateID, new Vector2D(0, -100));
-				drawing.DrawString(Color.Black, "Gun   : " + gunFSM.CurrentStateID, new Vector2D(0, -130));
-				drawing.DrawString(Color.Black, "Radar : " + radarFSM.CurrentStateID, new Vector2D(0, -160));
+				Drawing.DrawString(Color.Black, "Hits: " + ConsecutiveHits, new Vector2D(0, -70));
+				Drawing.DrawCircle(Color.BlueViolet, enemyData.Position, (float)PrefferedEnemyDistance*2, (float)PrefferedEnemyDistance*2);
+				Drawing.DrawString(Color.Black, "Body  : " + bodyFSM.CurrentStateID, new Vector2D(0, -100));
+				Drawing.DrawString(Color.Black, "Gun   : " + gunFSM.CurrentStateID, new Vector2D(0, -130));
+				Drawing.DrawString(Color.Black, "Radar : " + radarFSM.CurrentStateID, new Vector2D(0, -160));
 				//bool dodge = false;
 				//if (!hitEnemy && enemyData.EnergyChanged && hitByEnemy)
 				//{
@@ -89,18 +100,20 @@ namespace PG4500_2016_Exam1
 					enemyData.ValidDataTime = EnemyData.ValidDataTimeOnMisses;
 				}
 
+
+				LastPosition.Set(Position);
+				Position.Set(X, Y);
+				if (Position != LastPosition)
+				{
+					lastDifferentPositionTime = Time;
+				}
 				Execute();
 			}
 		}
 
-	    public void SetHeading(double degrees)
-	    {
-		    //SetTurnRight((-Heading) + degrees);
-	    }
-
 		private void InitializeBot()
 		{
-			drawing = new Drawing(this);
+			Drawing = new Drawing(this);
 			bodyFSM = new FiniteStateMachine(this);
 			gunFSM = new FiniteStateMachine(this);
 			radarFSM = new FiniteStateMachine(this);
@@ -114,19 +127,13 @@ namespace PG4500_2016_Exam1
 			IsAdjustRadarForRobotTurn = false;
 		}
 
-	    private void RadarSweep()
-	    {
-		    SetTurnRadarRight(double.PositiveInfinity);
-	    }
-
 		// ROBOCODE EVENTS // 
-
 		public override void OnScannedRobot(ScannedRobotEvent evnt)
 		{
 			//enemyData.SetData(evnt.Name, evnt.Distance, evnt.Bearing, Time);
 			enemyData.SetData(evnt);
 			gunFSM.EnqueueState(StateManager.StateAttack);
-			bodyFSM.EnqueueState(StateManager.StatePursuit);
+			bodyFSM.EnqueueState(StateManager.StateFollow);
 			radarFSM.EnqueueState(StateManager.StateScanLock);
 
 
@@ -136,7 +143,7 @@ namespace PG4500_2016_Exam1
 
 	    public override void OnHitByBullet(HitByBulletEvent evnt)
 	    {
-		    bulletData.SetData(evnt.Heading, Time);
+		    bulletData.SetData(evnt.Heading, Time); // TODO Remove??
 			//bodyFSM.EnqueueState("Dodge");
 		}
 
@@ -144,7 +151,6 @@ namespace PG4500_2016_Exam1
 	    {
 		    ConsecutiveHits ++;
 			ConsecutiveMisses = 0;
-		    //hitEnemy = true;
 	    }
 
 	    public override void OnBulletMissed(BulletMissedEvent evnt)

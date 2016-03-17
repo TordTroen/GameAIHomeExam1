@@ -58,7 +58,7 @@ namespace Drot.States
 			//robot.SetAhead(30);
 			if (robot.DistanceRemaining.IsZero())
 			{
-				ret = StateManager.StatePursuit;
+				ret = StateManager.StateFollow;
 			}
 
 			return ret;

@@ -87,6 +87,26 @@ namespace Drot
 			long deltaTime = robot.Time - UpdateTime;
 			return (deltaTime < ValidDataTime);
 		}
+
+		public DistanceLevel GetDistanceLevel()
+		{
+			if (Distance > Trotor14.PrefferedEnemyDistance * 1.5)
+			{
+				return DistanceLevel.TooFar;
+			}
+			else if (Distance < Trotor14.PrefferedEnemyDistance * 0.5)
+			{
+				return DistanceLevel.TooClose;
+			}
+			return DistanceLevel.Preffered;
+		}
+	}
+
+	public enum DistanceLevel
+	{
+		TooFar,
+		Preffered,
+		TooClose
 	}
 }
          

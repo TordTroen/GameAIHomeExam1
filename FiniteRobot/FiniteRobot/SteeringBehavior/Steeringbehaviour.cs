@@ -18,15 +18,11 @@ namespace Drot
 			this.robot = robot;
 		}
 
-		public virtual void Steer(Vector2D target)
-		{
-
-		}
+		public virtual void Steer(Vector2D target) { }
 
 		protected void ApplySteering(Vector2D desiredVelocity, Vector2D velocity)
 		{
 			Vector2D curPos = robot.Position;
-			//Vector2D velocity = robot.VelocityVector;
 
 			Vector2D steering = desiredVelocity - velocity;
 
@@ -38,7 +34,7 @@ namespace Drot
 
 			Vector2D pos = curPos + velocity;
 
-			double absDeg = Vector2D.AbsoluteDegrees(robot.Position, pos);
+			double absDeg = Vector2D.AbsoluteDegrees(curPos, pos);
 			double angle = Utils.NormalRelativeAngleDegrees(absDeg - robot.Heading);
 
 			robot.SetAhead(desiredVelocity.Length);

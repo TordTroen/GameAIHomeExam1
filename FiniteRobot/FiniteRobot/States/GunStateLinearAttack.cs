@@ -17,7 +17,7 @@ namespace Drot.States
 			// Control the robot
 			double angle = LinearTargeting();
 			robot.SetTurnGunRight(angle);
-			//robot.Fire(firingPower);
+			robot.Fire(firingPower);
 
 			return ret;
 		}
@@ -61,9 +61,9 @@ namespace Drot.States
 			double angle = Utils.NormalRelativeAngleDegrees(absDeg - robot.GunHeading);
 
 			// Debug
-			robot.drawing.DrawBox(Color.DeepPink, efPos, 128);
+			robot.Drawing.DrawBox(Color.DeepPink, efPos, 128);
 			//robot.drawing.DrawBox(Color.Gold, pos, 128);
-			robot.drawing.DrawLine(Color.Cyan, pos, pos.ProjectForTime(Utility.DegToRad(Utils.NormalRelativeAngleDegrees(absDeg)), 100, 100));
+			robot.Drawing.DrawLine(Color.Cyan, pos, pos.ProjectForTime(Utility.DegToRad(Utils.NormalRelativeAngleDegrees(absDeg)), 100, 100));
 
 			return angle;
 		}

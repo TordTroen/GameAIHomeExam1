@@ -9,21 +9,23 @@ namespace Drot.States
 {
 	public class BodyStateCircleEnemy : State
 	{
-		private double screenMargin = 100;
-
 		public override string OnUpdate()
 		{
 			string ret = null;
 
-			if (robot.enemyData.Distance > robot.prefferedEnemyDistance * 1.2)
+			//if (robot.enemyData.GetDistanceLevel() == DistanceLevel.TooFar)
+			//{
+			//	ret = StateManager.StatePursuit;
+			//}
+			//else
+			//{
+			// TODO This will just make it circle rightways(?), so if it is to the left of the enemy, it will circle away from the enemy...
+			robot.SetTurnRight(robot.enemyData.Bearing + 90);
+			robot.SetAhead(100 * robot.WallHitMovementDir);
+			//}
+			if (robot.enemyData.GetDistanceLevel() != DistanceLevel.Preffered)
 			{
-				ret = StateManager.StatePursuit;
-			}
-			else
-			{
-				// TODO This will just make it circle rightways(?), so if it is to the left of the enemy, it will circle away from the enemy...
-				//robot.SetTurnRight(robot.enemyData.Bearing + 90);
-				//robot.SetAhead(100 * robot.WallHitMovementDir);
+				ret = StateManager.StateMovementSelect;
 			}
 
 			return ret;

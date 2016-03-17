@@ -11,7 +11,7 @@ namespace Drot
 {
 	public class ArrivalBehavior : SteeringBehaviour
 	{
-		private double slowdownRadius = 100;
+		private readonly double slowdownRadius = 100;
 
 		public ArrivalBehavior(Trotor14 robot, double slowdownRadius)
 			: base(robot)

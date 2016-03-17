@@ -15,8 +15,9 @@ namespace Drot
 		public const string StateIdle = "Idle";
 		public const string StateAttack = "Attack";
 		public const string StateDodge = "Dodge"; // TODO Remove
-		public const string StatePursuit = "Pursuit";
-		public const string StateOffensiveSelect = "SelectOffensiveBodyState";
+		public const string StateFollow = "Follow";
+		public const string StateFlee = "Flee";
+		public const string StateMovementSelect = "SelectMovementState";
 		public const string StateCircleEnemy = "CircleEnemy";
 		public const string StateWander = "Wander";
 		public const string StateCircleWander = "CircleWander";
@@ -35,8 +36,9 @@ namespace Drot
 				{ StateIdle, new StateIdle() },
 				{ StateAttack, new GunStateLinearAttack() },
 				{ StateDodge, new BodyStateDodge() },
-				{ StatePursuit, new BodyStatePursuit() },
-				{ StateOffensiveSelect, new BodySelectOffensiveState() },
+				{ StateFollow, new BodyStateFollow() },
+				{ StateFlee, new BodyStateFlee() },
+				{ StateMovementSelect, new BodySelectMovementState() },
 				{ StateCircleEnemy, new BodyStateCircleEnemy() },
 				{ StateWander, new BodyStateWander() },
 				{ StateCircleWander, new BodyStateCircleWander() },
