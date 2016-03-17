@@ -10,7 +10,7 @@ namespace Drot.States
 	{
 		private FleeBehavior flee;
 
-		public override void OnEnter()
+		public override void OnStart()
 		{
 			flee = new FleeBehavior(robot);
 		}

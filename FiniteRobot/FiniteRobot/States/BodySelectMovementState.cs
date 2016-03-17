@@ -13,20 +13,7 @@ namespace Drot.States
 
 		public override void OnEnter()
 		{
-			// TODO Enqueue random offensive state
 			DistanceLevel distLvl = robot.enemyData.GetDistanceLevel();
-			//if (distLvl == DistanceLevel.Preffered)
-			//{
-			//	double r = rnd.NextDouble();
-			//	if (r < 0.5)
-			//	{
-			//		nextState = StateManager.StateCircleEnemy;
-			//	}
-			//	else if (r >= 0.5)
-			//	{
-			//		nextState = StateManager.StateCircleWander;
-			//	}
-			//}
 			if (distLvl == DistanceLevel.TooFar && !robot.IsStuck)
 			{
 				nextState = StateManager.StateFollow;
@@ -37,15 +24,10 @@ namespace Drot.States
 			}
 			else
 			{
-				double r = rnd.NextDouble();
-				if (r < 0.5)
-				{
-					nextState = StateManager.StateCircleEnemy;
-				}
-				else if (r >= 0.5)
-				{
-					nextState = StateManager.StateCircleWander;
-				}
+				//var statesToUse = robot.gameData.GetBestStates();
+				//int ranIndex = rnd.Next(0, statesToUse.Count);
+				//nextState = statesToUse[ranIndex];
+				nextState = robot.CurrentBodyMovementState;
 			}
 		}
 

@@ -11,7 +11,7 @@ namespace PG4500_2016_Exam1
     {
 		public const double Mass = 1;
 		public const double MaxSpeed = 8;
-		public const double PrefferedEnemyDistance = 2500;
+		public const double PrefferedEnemyDistance = 250;
 
 		/// <summary>
 		/// Number of hits in a row. Resets when on miss.
@@ -26,11 +26,10 @@ namespace PG4500_2016_Exam1
 		/// An int that flips between 1 and -1 when the robot hits a wall
 		/// </summary>
 	    public int WallHitMovementDir { get; private set; }
-		//public Vector2D Position { get { return new Vector2D(X, Y); } }
+
 		public Vector2D Position { get; private set; }
-		public Vector2D LastPosition { get; private set; }
 		/// <summary>
-		/// Returns true if we haven moved for some time.
+		/// Returns true if we havent moved for some time.
 		/// </summary>
 		public bool IsStuck { get { return (Time - lastDifferentPositionTime > 48); } }
 
@@ -43,11 +42,12 @@ namespace PG4500_2016_Exam1
 		public Drawing Drawing { get; private set; }
 		public EnemyData enemyData;
 		public BulletData bulletData;
+		public GameData gameData;
 		private FiniteStateMachine bodyFSM;
 		private FiniteStateMachine gunFSM;
 		private FiniteStateMachine radarFSM;
 		private long lastDifferentPositionTime;
-
+		public string CurrentBodyMovementState { get; private set; }
 
 		public override void Run()
 		{
@@ -55,10 +55,9 @@ namespace PG4500_2016_Exam1
 
 			radarFSM.EnqueueState(StateManager.StateRadarSweep);
 
-			//SetHeading(0);
-			//SetTurnRadarRight(360);//double.PositiveInfinity);// * radarDir);
-			//RadarSweep();
-
+			CurrentBodyMovementState = gameData.GetBestState();
+			bodyFSM.EnqueueState(StateManager.StateMovementSelect);
+			Out.WriteLine("State: " + CurrentBodyMovementState);
 			while (true)
 			{
 				bodyFSM.Update();
@@ -73,6 +72,7 @@ namespace PG4500_2016_Exam1
 				Drawing.DrawString(Color.Black, "Body  : " + bodyFSM.CurrentStateID, new Vector2D(0, -100));
 				Drawing.DrawString(Color.Black, "Gun   : " + gunFSM.CurrentStateID, new Vector2D(0, -130));
 				Drawing.DrawString(Color.Black, "Radar : " + radarFSM.CurrentStateID, new Vector2D(0, -160));
+				Drawing.DrawString(Color.Black, string.Format("Stuck: {0} ({1} - {2}) Vel: {3}", IsStuck, Time, lastDifferentPositionTime, Velocity), new Vector2D(0, -40));
 				//bool dodge = false;
 				//if (!hitEnemy && enemyData.EnergyChanged && hitByEnemy)
 				//{
@@ -101,18 +101,19 @@ namespace PG4500_2016_Exam1
 				}
 
 
-				LastPosition.Set(Position);
 				Position.Set(X, Y);
-				if (Position != LastPosition)
+				if (Math.Abs(Velocity) > 0.5)
 				{
 					lastDifferentPositionTime = Time;
 				}
+				
 				Execute();
 			}
 		}
 
 		private void InitializeBot()
 		{
+			Position = new Vector2D();
 			Drawing = new Drawing(this);
 			bodyFSM = new FiniteStateMachine(this);
 			gunFSM = new FiniteStateMachine(this);
@@ -120,6 +121,7 @@ namespace PG4500_2016_Exam1
 
 			enemyData = new EnemyData(this);
 			bulletData = new BulletData();
+			gameData = new GameData(this);
 			WallHitMovementDir = 1;
 
 			IsAdjustRadarForGunTurn = false;
@@ -130,15 +132,10 @@ namespace PG4500_2016_Exam1
 		// ROBOCODE EVENTS // 
 		public override void OnScannedRobot(ScannedRobotEvent evnt)
 		{
-			//enemyData.SetData(evnt.Name, evnt.Distance, evnt.Bearing, Time);
 			enemyData.SetData(evnt);
 			gunFSM.EnqueueState(StateManager.StateAttack);
-			bodyFSM.EnqueueState(StateManager.StateFollow);
+			//bodyFSM.EnqueueState(StateManager.StateFollow);
 			radarFSM.EnqueueState(StateManager.StateScanLock);
-
-
-			//double turn = HeadingRadians + evnt.BearingRadians - RadarHeadingRadians;
-			//SetTurnRadarRightRadians(2 * Utils.NormalRelativeAngle(turn));
 		}
 
 	    public override void OnHitByBullet(HitByBulletEvent evnt)
@@ -164,17 +161,22 @@ namespace PG4500_2016_Exam1
 			WallHitMovementDir *= -1;
 	    }
 
-	    public override void OnRobotDeath(RobotDeathEvent evnt)
-	    {
-		    if (evnt.Name == enemyData.Name)
-		    {
-			    enemyData.Reset();
-		    }
-	    }
+	    //public override void OnRobotDeath(RobotDeathEvent evnt)
+	    //{
+		   // if (evnt.Name == enemyData.Name)
+		   // {
+			  //  enemyData.Reset();
+		   // }
+	    //}
 
-	    public override void OnDeath(DeathEvent evnt)
+		public override void OnRoundEnded(RoundEndedEvent evnt)
+		{
+			gameData.OnRoundOver(CurrentBodyMovementState);
+		}
+
+		public override void OnDeath(DeathEvent evnt)
 	    {
-		    Out.WriteLine("I'll be back.");
+			Out.WriteLine("I'll be back.");
 	    }
-    }
+	}
 }

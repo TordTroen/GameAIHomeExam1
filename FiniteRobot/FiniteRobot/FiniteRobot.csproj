@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameData.cs" />
     <Compile Include="States\BodyStateFlee.cs" />
     <Compile Include="SteeringBehavior\ArrivalBehavior.cs" />
     <Compile Include="SteeringBehavior\BehaviorStruct.cs" />
