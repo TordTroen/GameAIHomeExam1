@@ -41,7 +41,6 @@ namespace PG4500_2016_Exam1
 		}
 		public Drawing Drawing { get; private set; }
 		public EnemyData enemyData;
-		public BulletData bulletData;
 		public GameData gameData;
 		private FiniteStateMachine bodyFSM;
 		private FiniteStateMachine gunFSM;
@@ -57,39 +56,20 @@ namespace PG4500_2016_Exam1
 
 			CurrentBodyMovementState = gameData.GetBestState();
 			bodyFSM.EnqueueState(StateManager.StateMovementSelect);
-			Out.WriteLine("State: " + CurrentBodyMovementState);
+
 			while (true)
 			{
 				bodyFSM.Update();
 				gunFSM.Update();
 				radarFSM.Update();
-				Drawing.DrawLine(Color.White, Position, Position.ProjectForTime(HeadingRadians, Velocity, 10));
 
-				//SetTurnRadarLeft(double.PositiveInfinity * radarDir);
-
+				// Debug stuff
 				Drawing.DrawString(Color.Black, "Hits: " + ConsecutiveHits, new Vector2D(0, -70));
 				Drawing.DrawCircle(Color.BlueViolet, enemyData.Position, (float)PrefferedEnemyDistance*2, (float)PrefferedEnemyDistance*2);
 				Drawing.DrawString(Color.Black, "Body  : " + bodyFSM.CurrentStateID, new Vector2D(0, -100));
 				Drawing.DrawString(Color.Black, "Gun   : " + gunFSM.CurrentStateID, new Vector2D(0, -130));
 				Drawing.DrawString(Color.Black, "Radar : " + radarFSM.CurrentStateID, new Vector2D(0, -160));
 				Drawing.DrawString(Color.Black, string.Format("Stuck: {0} ({1} - {2}) Vel: {3}", IsStuck, Time, lastDifferentPositionTime, Velocity), new Vector2D(0, -40));
-				//bool dodge = false;
-				//if (!hitEnemy && enemyData.EnergyChanged && hitByEnemy)
-				//{
-				//	// Assume enemy bullet will hit where we are now
-				//	bodyFSM.EnqueueState("Dodge");
-				//	dodge = true;
-				//}
-				//drawing.DrawString(Color.Red, "Dodge: " + dodge, new Vector2D(0, -30));
-
-				//hitByEnemy = false;
-				//hitEnemy = false;
-				//Scan();
-
-				//if (!enemyData.ValidData() && enemyData.LastPosition == enemyData.Position)
-				//{
-				//	RadarSweep();
-				//}
 
 				if (ConsecutiveHits > ConsecutiveMisses)
 				{
@@ -99,7 +79,6 @@ namespace PG4500_2016_Exam1
 				{
 					enemyData.ValidDataTime = EnemyData.ValidDataTimeOnMisses;
 				}
-
 
 				Position.Set(X, Y);
 				if (Math.Abs(Velocity) > 0.5)
@@ -120,7 +99,6 @@ namespace PG4500_2016_Exam1
 			radarFSM = new FiniteStateMachine(this);
 
 			enemyData = new EnemyData(this);
-			bulletData = new BulletData();
 			gameData = new GameData(this);
 			WallHitMovementDir = 1;
 
@@ -136,12 +114,6 @@ namespace PG4500_2016_Exam1
 			gunFSM.EnqueueState(StateManager.StateAttack);
 			//bodyFSM.EnqueueState(StateManager.StateFollow);
 			radarFSM.EnqueueState(StateManager.StateScanLock);
-		}
-
-	    public override void OnHitByBullet(HitByBulletEvent evnt)
-	    {
-		    bulletData.SetData(evnt.Heading, Time); // TODO Remove??
-			//bodyFSM.EnqueueState("Dodge");
 		}
 
 	    public override void OnBulletHit(BulletHitEvent evnt)
@@ -160,14 +132,6 @@ namespace PG4500_2016_Exam1
 	    {
 			WallHitMovementDir *= -1;
 	    }
-
-	    //public override void OnRobotDeath(RobotDeathEvent evnt)
-	    //{
-		   // if (evnt.Name == enemyData.Name)
-		   // {
-			  //  enemyData.Reset();
-		   // }
-	    //}
 
 		public override void OnRoundEnded(RoundEndedEvent evnt)
 		{

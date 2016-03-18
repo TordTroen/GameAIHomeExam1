@@ -8,6 +8,11 @@ namespace Drot.States
 {
 	public class BodySelectMovementState : State
 	{
+		/// <summary>
+		/// The number of times we want to sample the states.
+		/// </summary>
+		public const int SampleIterations = 2;
+
 		private string nextState = null;
 		private readonly Random rnd = new Random();
 

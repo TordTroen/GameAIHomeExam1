@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Robocode;
 using PG4500_2016_Exam1;
+using Drot.States;
 
 namespace Drot
 {
@@ -15,11 +16,10 @@ namespace Drot
 	public class GameData
 	{
 		private const string DataFile = "trotor14_data.txt";
-		//public Dictionary<string, int> stateOverview = new Dictionary<string, int>();
 		public Dictionary<string, RoundData> samples = new Dictionary<string, RoundData>();
 		private readonly Trotor14 robot;
 		private readonly Random rnd = new Random();
-		public int SampleCount { get; private set; }
+		public int NumberOfSamples { get; private set; }
 
 		public GameData(Trotor14 robot)
 		{
@@ -35,20 +35,21 @@ namespace Drot
 				WipeData();
 			}
 
-			//stateOverview.Add(StateManager.StateCircleEnemy, 0);
-			//stateOverview.Add(StateManager.StateCircleWander, 0);
 			AddSamples();
-			//overview.Add(StateManager.StateWander, new RoundData());
 			ReadData();
 		}
 
 		private void AddSamples()
 		{
+			// Add all states that are going to be sampled
 			samples.Add(StateManager.StateCircleEnemy, new RoundData());
 			samples.Add(StateManager.StateCircleWander, new RoundData());
-			SampleCount = samples.Count;
+			NumberOfSamples = samples.Count;
 		}
 
+		/// <summary>
+		/// Reads data from the data file into the samples Dictionary.
+		/// </summary>
 		public void ReadData()
 		{
 			try
@@ -66,8 +67,6 @@ namespace Drot
 					int eneEnergy = 0;
 					int.TryParse(values[1], out robEnergy);
 					int.TryParse(values[2], out eneEnergy);
-					//stateOverview.Add(key, num);
-					//samples[key] = new RoundData(robEnergy, eneEnergy, samples[key].IncrementedSampleCount());
 					samples[key] = samples[key].AddToData(robEnergy, eneEnergy, samples[key].SampleCount);
 					robot.Out.WriteLine("Read: " + string.Format("{0}, {1}", samples[key].RobotEnergy, samples[key].EnemyEnergy));
 				}
@@ -79,6 +78,9 @@ namespace Drot
 			}
 		}
 
+		/// <summary>
+		/// Saves the data in the samples Dictionary into the data file.
+		/// </summary>
 		private void SaveData()
 		{
 			try
@@ -99,6 +101,9 @@ namespace Drot
 			}
 		}
 
+		/// <summary>
+		/// Resets the data in the file.
+		/// </summary>
 		private void WipeData()
 		{
 			samples = new Dictionary<string, RoundData>();
@@ -107,27 +112,30 @@ namespace Drot
 			samples = new Dictionary<string, RoundData>();
 		}
 
+		/// <summary>
+		/// Called when the round is over.
+		/// </summary>
+		/// <param name="state">Body movement state that was used that round.</param>
 		public void OnRoundOver(string state)
 		{
 			if (samples.ContainsKey(state))
 			{
-				//stateOverview[state]++;
-				//samples[state] = new RoundData((int)robot.Energy, (int)robot.enemyData.Energy, samples[state].IncrementedSampleCount());
 				samples[state] = samples[state].AddToData((int)robot.Energy, (int)robot.enemyData.Energy, samples[state].SampleCount);
 			}
 			SaveData();
 		}
 
+		/// <summary>
+		/// Returns the best state depening on wheter we have sampled everything or not, and the state that has the best score.
+		/// </summary>
 		public string GetBestState()
 		{
-			if (SampleCount > robot.RoundNum)
+			if (NumberOfSamples * BodySelectMovementState.SampleIterations > robot.RoundNum)
 			{
-				// return one of getbeststates()
-				return GetRandomState(GetUnsampledStates());
+				return GetRandomState(GetLowestSampledStates());
 			}
 			else
 			{
-				// return get random unsampled
 				return GetRandomState(GetBestStates());
 			}
 		}
@@ -138,6 +146,9 @@ namespace Drot
 			return states[ranIndex];
 		}
 
+		/// <summary>
+		/// Returns a list of the states with the highest score.
+		/// </summary>
 		private List<string> GetBestStates()
 		{
 			List<string> states = new List<string>();
@@ -164,12 +175,28 @@ namespace Drot
 			return states;
 		}
 
-		private List<string> GetUnsampledStates()
+		/// <summary>
+		/// Return a list of the states that are sampled the fewest times.
+		/// </summary>
+		private List<string> GetLowestSampledStates()
 		{
 			List<string> states = new List<string>();
-			foreach (var item in samples)
+			// Sort the dictionary by the samplecount of the RoundData in the value
+			var list = from pair in samples
+					   orderby pair.Value.SampleCount
+					   ascending
+					   select pair;
+
+			// Get the state(s) with the lowest sample count
+			int lowestCount = int.MinValue;
+			foreach (var item in list)
 			{
-				if (item.Value.SampleCount <= 0)
+				int score = item.Value.Score;
+				if (lowestCount == int.MinValue)
+				{
+					lowestCount = item.Value.SampleCount;
+				}
+				if (lowestCount == item.Value.SampleCount)
 				{
 					states.Add(item.Key);
 				}
@@ -177,6 +204,9 @@ namespace Drot
 			return states;
 		}
 
+		/// <summary>
+		/// Holds some data for a round.
+		/// </summary>
 		public class RoundData
 		{
 			public int RobotEnergy { get; private set; }
@@ -189,15 +219,12 @@ namespace Drot
 			}
 			public int SampleCount { get; private set; }
 
-			public RoundData()
-			{
-
-			}
+			public RoundData() { }
 
 			public RoundData(int robotEnergy, int enemyEnergy)
 			{
-				this.RobotEnergy = robotEnergy;
-				this.EnemyEnergy = enemyEnergy;
+				RobotEnergy = robotEnergy;
+				EnemyEnergy = enemyEnergy;
 			}
 
 			public RoundData AddToData(int robotEnergy, int enemyEnergy, int oldSampleCount)
