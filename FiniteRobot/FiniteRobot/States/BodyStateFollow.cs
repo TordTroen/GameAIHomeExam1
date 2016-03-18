@@ -9,6 +9,9 @@ using Robocode.Util;
 
 namespace Drot.States
 {
+	/// <summary>
+	/// State that uses the Arrival steeringbehavior to move closer to the enemy. Could also use the Pursuit or the Seek behavior.
+	/// </summary>
 	public class BodyStateFollow : State
 	{
 		private ArrivalBehavior arrival;
@@ -24,7 +27,6 @@ namespace Drot.States
 			string ret = base.OnUpdate();
 
 			arrival.Steer(robot.enemyData.Position);
-			robot.Drawing.DrawBox(Color.Yellow, robot.enemyData.Position, 127);
 
 			if (robot.enemyData.GetDistanceLevel() != DistanceLevel.TooFar || robot.IsStuck)
 			{

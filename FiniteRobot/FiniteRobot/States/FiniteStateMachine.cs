@@ -7,12 +7,10 @@ namespace Drot
 {
 	public class FiniteStateMachine
 	{
-		public State curState;
-		public string CurrentStateID { get { return curState.Id; } }
-		public Queue<State> stateQueue = new Queue<State>();
-		//private readonly State[] _allStates; // Contains all possible states, so we don't have to make several instances of the same state
 		private const int MaxTransitionsPerFrame = 10;
-		//private Dictionary<string, State> states;
+		public string CurrentStateID { get { return curState.Id; } }
+		private State curState;
+		private Queue<State> stateQueue = new Queue<State>();
 		private readonly StateManager states;
 
 		public FiniteStateMachine(Trotor14 robot)
@@ -60,6 +58,9 @@ namespace Drot
 			} while (stateQueue.Count > 0);
 		}
 
+		/// <summary>
+		/// Sets the current state and calls the appropriate functions on the states.
+		/// </summary>
 		private void SetCurrentState(State newState)
 		{
 			if (curState != null)

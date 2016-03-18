@@ -47,7 +47,6 @@
     <Compile Include="Data\GameData.cs" />
     <Compile Include="States\BodyStateFlee.cs" />
     <Compile Include="SteeringBehavior\ArrivalBehavior.cs" />
-    <Compile Include="SteeringBehavior\BehaviorStruct.cs" />
     <Compile Include="Helpers\Drawing.cs" />
     <Compile Include="Data\EnemyData.cs" />
     <Compile Include="States\FiniteStateMachine.cs" />
@@ -60,10 +59,7 @@
     <Compile Include="States\BodySelectMovementState.cs" />
     <Compile Include="States\BodyStateCircleEnemy.cs" />
     <Compile Include="States\BodyStateCircleWander.cs" />
-    <Compile Include="States\BodyStateDodge.cs" />
-    <Compile Include="States\BodyStateWander.cs" />
     <Compile Include="States\GunStateLinearAttack.cs" />
-    <Compile Include="States\StateIDEnum.cs" />
     <Compile Include="States\RadarStateScanLock.cs" />
     <Compile Include="States\RadarStateScanSweep.cs" />
     <Compile Include="States\StateIdle.cs" />
@@ -74,6 +70,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Documentation.pdf" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

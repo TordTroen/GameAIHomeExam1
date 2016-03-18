@@ -25,8 +25,6 @@ namespace Drot
 
 		public override void Steer(Vector2D targetPos)
 		{
-			// TODO See here --> http://www.slideshare.net/cartwright_samuel/steering-behaviours-wander-15308522
-
 			//Vector2D desiredVelocity = Vector2D.Normalize(targetPos - robot.Position) * Trotor14.MaxSpeed;
 			Vector2D desiredVelocity = new Vector2D();
 
@@ -35,15 +33,14 @@ namespace Drot
 			wanderControl *= wanderDist;
 			robot.Drawing.DrawCircle(System.Drawing.Color.Red, robot.Position + wanderControl, (float)wanderRadius * 2f, (float)wanderRadius * 2f);
 
-			Vector2D displacement = new Vector2D(0, -1);// targetPos);
+			Vector2D displacement = new Vector2D(0, 1);// targetPos);
 			//displacement.Normalize();
 			displacement *= wanderRadius;
 
 			//displacement = SetAngle(displacement, wanderAngle);
 			displacement = SetAngle(displacement, wanderAngle);
 
-			//wanderAngle += rnd.RandomRange(-wanderVariance, wanderVariance);
-			wanderAngle += rnd.NextDouble() * wanderVariance - wanderVariance * .5;
+			wanderAngle += rnd.RandomRange(-wanderVariance, wanderVariance);
 
 			desiredVelocity = wanderControl + displacement;
 

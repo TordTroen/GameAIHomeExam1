@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Drot.States
 {
+	/// <summary>
+	/// State that does a simple radar sweep.
+	/// </summary>
 	public class RadarStateScanSweep : State
 	{
 		public override void OnEnter()

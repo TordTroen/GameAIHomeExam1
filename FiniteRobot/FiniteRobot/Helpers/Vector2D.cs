@@ -84,10 +84,23 @@ namespace Drot.Helpers
 			Y /= length;
 		}
 
+		/// <summary>
+		/// Returns the angle between two vectors in relation to the coordsystem we can use to turn the robot.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <param name="heading"></param>
+		/// <returns></returns>
+		public static double RotationAngleFromVectors(Vector2D a, Vector2D b, double heading)
+		{
+			double absDeg = AbsoluteDegrees(a, b);
+			return Utils.NormalRelativeAngleDegrees(absDeg - heading);
+		}
+
 		// TODO Move from here, it doesn't really make sense to have it here
 		public static double AbsoluteDegrees(Vector2D a, Vector2D b)
 		{
-			return Utility.RadToDeg(Math.Atan2(b.X - a.X, b.Y - a.Y));
+			return Utils.ToDegrees(Math.Atan2(b.X - a.X, b.Y - a.Y));
 		}
 
 		public static Vector2D Normalize(Vector2D v)

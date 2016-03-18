@@ -20,6 +20,9 @@ namespace Drot
 
 		public virtual void Steer(Vector2D target) { }
 
+		/// <summary>
+		/// Applies the steeringforces to the robot based on the desiredVelocity and velocity spevified.
+		/// </summary>
 		protected void ApplySteering(Vector2D desiredVelocity, Vector2D velocity)
 		{
 			Vector2D curPos = robot.Position;
@@ -34,14 +37,10 @@ namespace Drot
 
 			Vector2D pos = curPos + velocity;
 
-			double absDeg = Vector2D.AbsoluteDegrees(curPos, pos);
-			double angle = Utils.NormalRelativeAngleDegrees(absDeg - robot.Heading);
+			double angle = Vector2D.RotationAngleFromVectors(curPos, pos, robot.Heading);
 
 			robot.SetAhead(desiredVelocity.Length);
 			robot.SetTurnRight(angle);
-
-			//return new BehaviorResult(angle, desiredVelocity.Length);
-			//return new BehaviorResult();
 		}
 	}
 }

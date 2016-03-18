@@ -9,7 +9,7 @@ namespace PG4500_2016_Exam1
 {
     public class Trotor14 : AdvancedRobot
     {
-		public const double Mass = 1;
+		public const double Mass = 2;
 		public const double MaxSpeed = 8;
 		public const double PrefferedEnemyDistance = 250;
 
@@ -31,7 +31,7 @@ namespace PG4500_2016_Exam1
 		/// <summary>
 		/// Returns true if we havent moved for some time.
 		/// </summary>
-		public bool IsStuck { get { return (Time - lastDifferentPositionTime > 48); } }
+		public bool IsStuck { get { return (Time - lastMovementTime > 48); } }
 
 		public Vector2D VelocityVector {
 			get {
@@ -45,7 +45,7 @@ namespace PG4500_2016_Exam1
 		private FiniteStateMachine bodyFSM;
 		private FiniteStateMachine gunFSM;
 		private FiniteStateMachine radarFSM;
-		private long lastDifferentPositionTime;
+		private long lastMovementTime;
 		public string CurrentBodyMovementState { get; private set; }
 
 		public override void Run()
@@ -69,7 +69,7 @@ namespace PG4500_2016_Exam1
 				Drawing.DrawString(Color.Black, "Body  : " + bodyFSM.CurrentStateID, new Vector2D(0, -100));
 				Drawing.DrawString(Color.Black, "Gun   : " + gunFSM.CurrentStateID, new Vector2D(0, -130));
 				Drawing.DrawString(Color.Black, "Radar : " + radarFSM.CurrentStateID, new Vector2D(0, -160));
-				Drawing.DrawString(Color.Black, string.Format("Stuck: {0} ({1} - {2}) Vel: {3}", IsStuck, Time, lastDifferentPositionTime, Velocity), new Vector2D(0, -40));
+				Drawing.DrawString(Color.Black, string.Format("Stuck: {0} ({1} - {2}) Vel: {3}", IsStuck, Time, lastMovementTime, Velocity), new Vector2D(0, -40));
 
 				if (ConsecutiveHits > ConsecutiveMisses)
 				{
@@ -83,7 +83,7 @@ namespace PG4500_2016_Exam1
 				Position.Set(X, Y);
 				if (Math.Abs(Velocity) > 0.5)
 				{
-					lastDifferentPositionTime = Time;
+					lastMovementTime = Time;
 				}
 				
 				Execute();
@@ -112,7 +112,6 @@ namespace PG4500_2016_Exam1
 		{
 			enemyData.SetData(evnt);
 			gunFSM.EnqueueState(StateManager.StateAttack);
-			//bodyFSM.EnqueueState(StateManager.StateFollow);
 			radarFSM.EnqueueState(StateManager.StateScanLock);
 		}
 

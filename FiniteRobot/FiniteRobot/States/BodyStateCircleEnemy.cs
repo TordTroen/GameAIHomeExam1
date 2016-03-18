@@ -7,6 +7,9 @@ using Drot.Helpers;
 
 namespace Drot.States
 {
+	/// <summary>
+	/// State that tries to circle the enemy. Will change direction when hitting a wall.
+	/// </summary>
 	public class BodyStateCircleEnemy : State
 	{
 		public override string OnUpdate()

@@ -4,7 +4,7 @@
 - The container that holds all the states is a Dictionary, so we can easily get the states by simply providing the name string. 
 	- I also made a constant field for all the state names, so I don't have to worry about me misspelling a statename.
 - I added several states for movement that are chosen randomly to make it a bit more difficult to predict what the robot is going to do. 
-	- This also might make it so the robot uses tactics that works better against certain opponents. A dumb learining robot of sorts.
+	- This also might make it so the robot uses tactics that works better against certain opponents. A dumb learning robot of sorts.
 - Since what state the body is in depends on the distance to the enemy, I made a state that selects what body state to transition to instead of having the almost same logic in multiple states.
 - In the charge state I decided to use Arrival so it has a bit more interesting behavior, but Seek would probably have been a better fit there.
 

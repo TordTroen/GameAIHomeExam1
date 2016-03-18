@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Drot.States
 {
+	/// <summary>
+	/// State that tries to lock the radar to the enemy.
+	/// </summary>
 	public class RadarStateScanLock : State
 	{
 		private const double LockValue = 2;

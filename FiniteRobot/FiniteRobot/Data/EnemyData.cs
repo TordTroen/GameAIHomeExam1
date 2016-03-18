@@ -8,7 +8,6 @@ namespace Drot
 {
 	public class EnemyData
 	{
-		public string Name { get; set; }
 		public double Bearing { get; set; }
 		public double BearingRadians { get; set; }
 		public double Heading { get; set; }
@@ -20,7 +19,6 @@ namespace Drot
 		public Vector2D Position { get; set; }
 		public Vector2D LastPosition { get; set; }
 
-		public bool EnergyChanged { get { return !Utils.IsNear(OldEnergy, Energy); } }
 		private readonly Trotor14 robot;
 		public long ValidDataTime { get; set; }
 		public const long ValidDataTimeOnHits = 10;
@@ -47,7 +45,6 @@ namespace Drot
 
 			if (scanEvnt != null)
 			{
-				Name = scanEvnt.Name;
 				Bearing = scanEvnt.Bearing;
 				BearingRadians = scanEvnt.BearingRadians;
 				Heading = scanEvnt.Heading;
@@ -66,7 +63,6 @@ namespace Drot
 			}
 			else
 			{
-				Name = "";
 				Bearing = 0.0;
 				BearingRadians = 0.0;
 				Heading = 0.0;
@@ -79,7 +75,7 @@ namespace Drot
 
 		public Vector2D GetFuturePosition(double time)
 		{
-			return Position.ProjectForTime(Utility.DegToRad(Heading), Velocity, time);
+			return Position.ProjectForTime(Utils.ToRadians(Heading), Velocity, time);
 		}
 
 		public bool ValidData()

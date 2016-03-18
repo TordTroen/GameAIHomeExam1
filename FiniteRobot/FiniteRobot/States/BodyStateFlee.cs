@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Drot.States
 {
+	/// <summary>
+	/// State that uses the Flee steeringbehavior to move away from the enemy.
+	/// </summary>
 	public class BodyStateFlee : State
 	{
 		private FleeBehavior flee;
@@ -19,7 +22,6 @@ namespace Drot.States
 		{
 			string retState = base.OnUpdate();
 
-			// TODO Flee
 			flee.Steer(robot.enemyData.Position);
 
 			if (robot.enemyData.GetDistanceLevel() != DistanceLevel.TooClose || robot.IsStuck)

@@ -23,7 +23,7 @@ namespace Drot
 		{
 			Vector2D curPos = robot.Position;
 
-			// Calculate the slowdownfactor based on the distance to the endtarget
+			// Calculate the slowdownfactor based on the distance to the endtarget if we are inside the radius
 			double dist = (targetPos - curPos).Length;
 			double slowdownFactor = 1.0;
 			if (dist < slowdownRadius)

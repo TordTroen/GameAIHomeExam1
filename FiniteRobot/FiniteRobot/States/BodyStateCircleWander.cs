@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Drot.States
 {
+	/// <summary>
+	/// Moves in circles around itself.
+	/// </summary>
 	public class BodyStateCircleWander : State
 	{
 		public override string OnUpdate()

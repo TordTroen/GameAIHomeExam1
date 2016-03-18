@@ -9,17 +9,18 @@ using PG4500_2016_Exam1;
 
 namespace Drot
 {
-	// Holds all states, so we only have one instance of each class
+	/// <summary>
+	/// Holds all states, so we only have one instance of each class.
+	/// </summary>
 	public class StateManager
 	{
 		public const string StateIdle = "Idle";
 		public const string StateAttack = "Attack";
-		public const string StateDodge = "Dodge"; // TODO Remove
 		public const string StateFollow = "Follow";
 		public const string StateFlee = "Flee";
 		public const string StateMovementSelect = "SelectMovementState";
 		public const string StateCircleEnemy = "CircleEnemy";
-		public const string StateWander = "Wander";
+		//public const string StateWander = "Wander";
 		public const string StateCircleWander = "CircleWander";
 		public const string StateScanLock = "ScanLock";
 		public const string StateRadarSweep = "RadarSweep";
@@ -31,16 +32,16 @@ namespace Drot
 		{
 			this.robot = robot;
 
+			// Add all the states to the dictionary and initialize them
 			states = new Dictionary<string, State>
 			{
 				{ StateIdle, new StateIdle() },
 				{ StateAttack, new GunStateLinearAttack() },
-				{ StateDodge, new BodyStateDodge() },
 				{ StateFollow, new BodyStateFollow() },
 				{ StateFlee, new BodyStateFlee() },
 				{ StateMovementSelect, new BodySelectMovementState() },
 				{ StateCircleEnemy, new BodyStateCircleEnemy() },
-				{ StateWander, new BodyStateWander() },
+				//{ StateWander, new BodyStateWander() },
 				{ StateCircleWander, new BodyStateCircleWander() },
 				{ StateScanLock, new RadarStateScanLock() },
 				{ StateRadarSweep, new RadarStateScanSweep() }
@@ -52,6 +53,9 @@ namespace Drot
 			}
 		}
 
+		/// <summary>
+		/// Returns a state with the specified stateID.
+		/// </summary>
 		public State GetState(string stateId)
 		{
 			State state = null;
@@ -66,6 +70,9 @@ namespace Drot
 			return state;
 		}
 
+		/// <summary>
+		/// Checks if the specified state exists.
+		/// </summary>
 		public bool HasState(string stateId)
 		{
 			return states.ContainsKey(stateId);

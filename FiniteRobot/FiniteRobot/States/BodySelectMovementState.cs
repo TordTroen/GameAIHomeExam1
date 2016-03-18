@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Drot.States
 {
+	/// <summary>
+	/// State that selects a state for the robot body to use when inside the preffered range of the enemy.
+	/// </summary>
 	public class BodySelectMovementState : State
 	{
 		/// <summary>
@@ -29,9 +32,6 @@ namespace Drot.States
 			}
 			else
 			{
-				//var statesToUse = robot.gameData.GetBestStates();
-				//int ranIndex = rnd.Next(0, statesToUse.Count);
-				//nextState = statesToUse[ranIndex];
 				nextState = robot.CurrentBodyMovementState;
 			}
 		}
@@ -40,20 +40,5 @@ namespace Drot.States
 		{
 			return nextState;
 		}
-
-		//public string GetRandomOffensiveBodyState()
-		//{
-		//	int rNum = rnd.Next(3);
-		//	switch (rNum)
-		//	{
-		//		case 0:
-		//			return StateWander;
-		//		case 1:
-		//			return StateCircleEnemy;
-		//		case 2:
-		//			return StateCircleWander;
-		//	}
-		//	return null;
-		//}
 	}
 }

@@ -6,6 +6,9 @@ using Robocode.Util;
 
 namespace Drot.States
 {
+	/// <summary>
+	/// State that uses linear target prediction to try to hit the target.
+	/// </summary>
 	public class GunStateLinearAttack : State
 	{
 		private double firingPower;
@@ -24,20 +27,11 @@ namespace Drot.States
 
 		private double LinearTargeting()
 		{
-			// TODO
-			// Solve enemy's position for (t)
-			// use the time the bullet wil take to enemys distance in that function
-			// turn the gun that way so we can shoot
-			// shoot small bullets until we have finished turning (then shoot large)
-
-			// It hits most of the time... 
-
-
 			// Firing calculations
 			double dist = robot.enemyData.Distance;
 			firingPower = Math.Min(500 / dist, 3);
 
-			// TODO Take min() of the below and 1.75 (used if we miss a lot (maybe less than 50% accuracy?))
+			// Limit the firingpower if we 
 			if (robot.ConsecutiveHits < 2 || robot.enemyData.Energy <= 3)
 			{
 				firingPower = 1;
@@ -46,24 +40,18 @@ namespace Drot.States
 			double bulletSpeed = Rules.GetBulletSpeed(firingPower);
 			double hitTime = dist / bulletSpeed;
 
-			// TODO Account for enemy acceleration when pedicting the position
-
 			// Get the positions
 			Vector2D efPos = robot.enemyData.GetFuturePosition(hitTime);
 			efPos.Clamp(0, 0, robot.BattleFieldWidth, robot.BattleFieldHeight);
 			Vector2D pos = new Vector2D(robot.Position);
 
 			// Find the angle to the enemy predicted position
-			//double dx = efPos.X - pos.X;
-			//double dy = efPos.Y - pos.Y;
-			//double absDeg = Utility.RadToDeg(Math.Atan2(dx, dy));
-			double absDeg = Vector2D.AbsoluteDegrees(pos, efPos);
-			double angle = Utils.NormalRelativeAngleDegrees(absDeg - robot.GunHeading);
+			double angle = Vector2D.RotationAngleFromVectors(pos, efPos, robot.GunHeading);
 
 			// Debug
 			robot.Drawing.DrawBox(Color.DeepPink, efPos, 128);
 			//robot.drawing.DrawBox(Color.Gold, pos, 128);
-			robot.Drawing.DrawLine(Color.Cyan, pos, pos.ProjectForTime(Utility.DegToRad(Utils.NormalRelativeAngleDegrees(absDeg)), 100, 100));
+			robot.Drawing.DrawLine(Color.Cyan, pos, pos.ProjectForTime(Utils.ToRadians(angle), 100, 100));
 
 			return angle;
 		}
