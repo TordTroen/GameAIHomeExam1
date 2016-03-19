@@ -41,7 +41,7 @@ namespace PG4500_2016_Exam1
 		}
 		public Drawing Drawing { get; private set; }
 		public EnemyData enemyData;
-		public GameData gameData;
+		private GameData gameData;
 		private FiniteStateMachine bodyFSM;
 		private FiniteStateMachine gunFSM;
 		private FiniteStateMachine radarFSM;
@@ -70,15 +70,6 @@ namespace PG4500_2016_Exam1
 				Drawing.DrawString(Color.Black, "Gun   : " + gunFSM.CurrentStateID, new Vector2D(0, -130));
 				Drawing.DrawString(Color.Black, "Radar : " + radarFSM.CurrentStateID, new Vector2D(0, -160));
 				Drawing.DrawString(Color.Black, string.Format("Stuck: {0} ({1} - {2}) Vel: {3}", IsStuck, Time, lastMovementTime, Velocity), new Vector2D(0, -40));
-
-				if (ConsecutiveHits > ConsecutiveMisses)
-				{
-					enemyData.ValidDataTime = EnemyData.ValidDataTimeOnHits;
-				}
-				else
-				{
-					enemyData.ValidDataTime = EnemyData.ValidDataTimeOnMisses;
-				}
 
 				Position.Set(X, Y);
 				if (Math.Abs(Velocity) > 0.5)

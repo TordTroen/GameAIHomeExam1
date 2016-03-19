@@ -17,9 +17,10 @@ namespace Drot
 	{
 		private const string DataFile = "trotor14_data.txt";
 		public Dictionary<string, RoundData> samples = new Dictionary<string, RoundData>();
+		public int NumberOfSamples { get; private set; }
+
 		private readonly Trotor14 robot;
 		private readonly Random rnd = new Random();
-		public int NumberOfSamples { get; private set; }
 
 		public GameData(Trotor14 robot)
 		{
@@ -44,6 +45,7 @@ namespace Drot
 			// Add all states that are going to be sampled
 			samples.Add(StateManager.StateCircleEnemy, new RoundData());
 			samples.Add(StateManager.StateCircleWander, new RoundData());
+			//samples.Add(StateManager.StateWander, new RoundData());
 			NumberOfSamples = samples.Count;
 		}
 

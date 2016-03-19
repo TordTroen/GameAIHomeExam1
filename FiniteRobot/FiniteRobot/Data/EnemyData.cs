@@ -8,6 +8,9 @@ namespace Drot
 {
 	public class EnemyData
 	{
+		public const long ValidDataTimeOnHits = 10;
+		public const long ValidDataTimeOnMisses = 4;
+
 		public double Bearing { get; set; }
 		public double BearingRadians { get; set; }
 		public double Heading { get; set; }
@@ -20,9 +23,18 @@ namespace Drot
 		public Vector2D LastPosition { get; set; }
 
 		private readonly Trotor14 robot;
-		public long ValidDataTime { get; set; }
-		public const long ValidDataTimeOnHits = 10;
-		public const long ValidDataTimeOnMisses = 4;
+		//public long ValidDataTime { get; set; }
+		/// <summary>
+		/// Returns the amount of time the data is valid based on if we hit more than we miss.
+		/// </summary>
+		public long ValidDataTime { get {
+				if (robot.ConsecutiveHits > robot.ConsecutiveMisses)
+				{
+					return ValidDataTimeOnHits;
+				}
+				return ValidDataTimeOnMisses;
+			}
+		}
 
 		public EnemyData(Trotor14 robot)
 		{
@@ -34,7 +46,6 @@ namespace Drot
 
 		public void Reset()
 		{
-			ValidDataTime = ValidDataTimeOnMisses;
 			SetData(null);
 		}
 

@@ -15,7 +15,7 @@ namespace Drot
 		}
 
 		/// <summary>
-		/// Called just once after the state is initialized;
+		/// Called just once after the state is initialized.
 		/// </summary>
 		public virtual void OnStart() { }
 

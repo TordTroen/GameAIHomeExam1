@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Data\GameData.cs" />
     <Compile Include="States\BodyStateFlee.cs" />
+    <Compile Include="States\BodyStateWander.cs" />
     <Compile Include="SteeringBehavior\ArrivalBehavior.cs" />
     <Compile Include="Helpers\Drawing.cs" />
     <Compile Include="Data\EnemyData.cs" />

@@ -50,8 +50,6 @@ namespace Drot.States
 
 			// Debug
 			robot.Drawing.DrawBox(Color.DeepPink, efPos, 128);
-			//robot.drawing.DrawBox(Color.Gold, pos, 128);
-			robot.Drawing.DrawLine(Color.Cyan, pos, pos.ProjectForTime(Utils.ToRadians(angle), 100, 100));
 
 			return angle;
 		}

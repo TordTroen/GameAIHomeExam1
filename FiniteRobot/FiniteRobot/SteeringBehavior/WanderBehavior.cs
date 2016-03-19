@@ -11,9 +11,9 @@ namespace Drot
 {
 	public class WanderBehavior : SteeringBehaviour
 	{
-		private double wanderDist = 100;
-		private double wanderRadius = 500;
-		private double wanderAngle = 0.0;
+		private double wanderDist = 1;
+		private double wanderRadius = 50;
+		private double wanderAngle = 10;
 		private double wanderVariance = 10.0;
 		private readonly Random rnd = new Random();
 

@@ -20,7 +20,7 @@ namespace Drot
 		public const string StateFlee = "Flee";
 		public const string StateMovementSelect = "SelectMovementState";
 		public const string StateCircleEnemy = "CircleEnemy";
-		//public const string StateWander = "Wander";
+		public const string StateWander = "Wander";
 		public const string StateCircleWander = "CircleWander";
 		public const string StateScanLock = "ScanLock";
 		public const string StateRadarSweep = "RadarSweep";
@@ -41,7 +41,7 @@ namespace Drot
 				{ StateFlee, new BodyStateFlee() },
 				{ StateMovementSelect, new BodySelectMovementState() },
 				{ StateCircleEnemy, new BodyStateCircleEnemy() },
-				//{ StateWander, new BodyStateWander() },
+				{ StateWander, new BodyStateWander() },
 				{ StateCircleWander, new BodyStateCircleWander() },
 				{ StateScanLock, new RadarStateScanLock() },
 				{ StateRadarSweep, new RadarStateScanSweep() }
