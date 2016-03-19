@@ -70,10 +70,10 @@
     <Compile Include="SteeringBehavior\WanderBehavior.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Readme.txt" />
+    <None Include="Documentation.pdf" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Documentation.pdf" />
+    <Content Include="Notes.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
